@@ -1,3 +1,7 @@
-django
-djangorestframework
+flask
+pymongo
+mongokit
 mongoengine
+flask-mongoengine
+Flask-MongoKit
+flask-csrf
