@@ -2,12 +2,12 @@ from flask import Flask, request, session, abort, jsonify
 from models import *
 #from flaskext.csrf import csrf
 import logging, uuid
-from models import db
 from users import *
 from search import *
 from recommendation import *
 from notes import *
 from categories import *
+from auth import *
 
 app = Flask(__name__)
 app.config.from_object('settings')
@@ -20,6 +20,10 @@ app.add_url_rule('/notes', None, postNote, methods=["POST"])
 app.add_url_rule('/notes/<noteId>', None, getNote, methods=["GET"])
 app.add_url_rule('/notes/<noteId>', None, putNote, methods=["PUT"])
 app.add_url_rule('/notes/<noteId>', None, deleteNote, methods=["DELETE"])
+
+### Auth endpoint
+app.add_url_rule('/login', None, login, methods=["POST"])
+app.add_url_rule('/login', None, logout, methods=["DELETE"])
 
 ### Users endpoints
 app.add_url_rule('/users', None, postUser, methods=["POST"])
@@ -37,4 +41,5 @@ app.add_url_rule('/search', None, searchNotes, methods=["GET"])
 
 if __name__ == '__main__':
     app.debug = app.config['DEBUG']
+    app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
     app.run()

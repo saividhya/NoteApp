@@ -1,7 +1,6 @@
 flask
 pymongo
-mongokit
 mongoengine
+flask-jwt-simple
 flask-mongoengine
-Flask-MongoKit
 flask-csrf

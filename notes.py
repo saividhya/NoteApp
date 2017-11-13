@@ -4,6 +4,9 @@ from models import *
 from datetime import datetime
 
 def postNote():
+    if 'user' not in session:
+        abort(403)
+    userId = session['user']['_id']
     note = Note()
     note.id = uuid.uuid4()
     note.title = request.json['title']
@@ -12,13 +15,16 @@ def postNote():
     note.views = 1
     note.modified_date = datetime.now
     note.created_date = datetime.now
-    note.contributors = request.json['contributors']
+    note.author = userId
+    note.contributors = [userId]
     note.tags = request.json['tags']
     note.likes = []
     note.save()
     return jsonify(note)
 
 def getNote(noteId):
+    if 'user' not in session:
+        abort(403)
     note = Note.objects(id=noteId)
     if len(note) == 1:
         #http://thegeorgeous.com/2015/02/02/Atomic-updates-in-monogodb-using-monogengine.html
@@ -28,13 +34,19 @@ def getNote(noteId):
         abort(404)
 
 def getNotes():
-    notes = Note.objects.all()
+    if 'user' not in session:
+        abort(403)
+    userId = session['user']['_id']
+    notes = Note.objects(contributors__in=[userId])
     if len(notes) > 0:
         return jsonify(notes)
     else:
         abort(404)
 
 def putNote(noteId):
+    if 'user' not in session:
+        abort(403)
+    userId = session['user']['_id']
     note = Note.objects(id=noteId)
     if len(note) == 1:
         note.title = request.json['title']
@@ -50,8 +62,13 @@ def putNote(noteId):
         abort(404)
 
 def deleteNote(noteId):
+    if 'user' not in session:
+        abort(403)
+    userId = session['user']['_id']
     note = Note.objects(id=noteId)
     if len(note) == 1:
+        if str(note[0].author) != userId:
+            abort(403)
         note.delete()
     else:
         abort(404)

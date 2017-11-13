@@ -9,7 +9,7 @@ class User(db.Document):
     email = db.StringField(max_length=200)
     password = db.StringField(max_length=200)
     interests = db.ListField(db.StringField(max_length=30))
-    notes = db.ListField(db.UUIDField(binary=False))
+    #notes = db.ListField(db.UUIDField(binary=False))
 
 class Note(db.Document):
     id = db.UUIDField(primary_key=True, binary=False)
@@ -19,6 +19,7 @@ class Note(db.Document):
     views = db.IntField()
     modified_date = db.DateTimeField(default=datetime.now)
     created_date = db.DateTimeField(default=datetime.now)
+    author = db.UUIDField(binary=False)
     contributors = db.ListField(db.UUIDField(binary=False))
     tags = db.ListField(db.StringField(max_length=30))
     #edits = fields.ListField(fields.EmbeddedDocumentField(ToolInput))
