@@ -24,3 +24,10 @@ class Note(db.Document):
     tags = db.ListField(db.StringField(max_length=30))
     #edits = fields.ListField(fields.EmbeddedDocumentField(ToolInput))
     likes = db.ListField(db.UUIDField(binary=False))
+
+    meta = {'indexes': [
+        {'fields': ['$title', "$content"],
+         'default_language': 'english',
+         'weights': {'title': 10, 'content': 4}
+        }
+    ]}

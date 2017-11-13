@@ -5,6 +5,11 @@ from models import *
 def searchNotes():
     if 'user' not in session:
         abort(403)
-    notes = Note.objects.all()
     userId = session['user']['_id']
-    return jsonify(notes)
+    q = request.args.get('q')
+    myNotes = Note.objects(contributors__in=[userId]).search_text(q).order_by('$text_score').all()
+    publicNotes = Note.objects(category__exact="public").search_text(q).order_by('$text_score').all()
+    result = {}
+    result['myNotes'] = myNotes
+    result['publicNotes'] = publicNotes
+    return jsonify(result)
