@@ -15,7 +15,7 @@ class Note(db.Document):
     id = db.UUIDField(primary_key=True, binary=False)
     title = db.StringField()
     content = db.StringField()
-    category = db.StringField()
+    access = db.StringField()
     views = db.IntField()
     modified_date = db.DateTimeField(default=datetime.now)
     created_date = db.DateTimeField(default=datetime.now)

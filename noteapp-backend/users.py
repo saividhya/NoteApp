@@ -30,7 +30,6 @@ def putUser(userId):
     user = User.objects(id=userId)
     if len(user) == 1:
         user.interests = request.json['interests']
-        user.notes = request.json['notes']
         user.save()
         return jsonify(user)
     else:

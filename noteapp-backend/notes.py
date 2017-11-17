@@ -11,7 +11,7 @@ def postNote():
     note.id = uuid.uuid4()
     note.title = request.json['title']
     note.content = request.json['content']
-    note.category = request.json['category']
+    note.access = request.json['access']
     note.views = 1
     note.modified_date = datetime.now
     note.created_date = datetime.now
@@ -37,7 +37,7 @@ def getNotes():
     if 'user' not in session:
         abort(403)
     userId = session['user']['_id']
-    notes = Note.objects(contributors__in=[userId])
+    notes = Note.objects(contributors__in=[userId]).order_by("-modified_date")
     if len(notes) > 0:
         return jsonify(notes)
     else:
@@ -51,7 +51,7 @@ def putNote(noteId):
     if len(note) == 1:
         note.title = request.json['title']
         note.content = request.json['content']
-        note.category = request.json['category']
+        note.access = request.json['access']
         note.modified_date = datetime.now
         note.contributors = request.json['contributors']
         note.tags = request.json['tags']

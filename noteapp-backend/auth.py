@@ -5,7 +5,7 @@ def login():
     email = request.json['email']
     password = request.json['password']
     user = User.objects(email=email)
-    if True:#len(user) == 1 and user.password is password:
+    if len(user) == 1 and user[0].password == password:
         session['user'] = user[0]
         return ('', 200)
     else:

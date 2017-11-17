@@ -6,4 +6,6 @@ def getCategories():
     if 'user' not in session:
         abort(403)
     userId = session['user']['_id']
-    return jsonify({})
+    tag_freqs = Note.objects.item_frequencies('tags', normalize=True)
+    #notes = Note.objects(contributors__in=[userId])
+    return jsonify(tag_freqs)
