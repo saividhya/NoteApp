@@ -8,4 +8,10 @@ def getCategories():
     userId = session['user']['_id']
     tag_freqs = Note.objects.item_frequencies('tags', normalize=True)
     #notes = Note.objects(contributors__in=[userId])
+    # [
+    #     {
+    #         "name": "asdg",
+    #         "termFrequency": 0.25
+    #     }
+    # ]
     return jsonify(tag_freqs)
