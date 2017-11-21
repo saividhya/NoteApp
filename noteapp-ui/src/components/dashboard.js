@@ -1,57 +1,8 @@
-import React, { PropTypes } from 'react'
-import { Card, Button, CardHeader, CardFooter, CardBody,
-  CardTitle, CardText,Row,Col,Jumbotron,ListGroupItem,ListGroup,CardLink } from 'reactstrap';
+import React from 'react'
+import { Row,Col,Jumbotron,ListGroupItem,ListGroup} from 'reactstrap';
+import data from './data/dashboard.json'
+import {Notes} from './util.js'
 
-class Note extends React.Component {
-  render () {
-    return (
-      <div>
-      <Row>
-          <Col xs="6" sm="4">
-            <Card>
-              <CardBody>
-                <CardTitle>Epaxos</CardTitle>
-              </CardBody>
-              <CardBody>
-                <CardText>Some quick example text to build on the card title and make up the bulk of the cards content.</CardText>
-                <CardLink href="#">Card Link</CardLink>
-                <CardLink href="#">Another Link</CardLink>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="6" sm="4">
-            <Card>
-              <CardBody>
-                <CardTitle>Raft</CardTitle>
-              </CardBody>
-              <CardBody>
-                <CardText>Some quick example text to build on the card title and make up the bulk of the cards content.</CardText>
-                <CardLink href="#">Card Link</CardLink>
-                <CardLink href="#">Another Link</CardLink>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col sm="4">
-            <Card>
-              <CardBody>
-                <CardTitle>Election Algo</CardTitle>
-              </CardBody>
-              <CardBody>
-                <CardText>Some quick example text to build on the card title and make up the bulk of the cards content.</CardText>
-                <CardLink href="#">Card Link</CardLink>
-                <CardLink href="#">Another Link</CardLink>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-
-
-
-      </div>
-    )
-
-  }
-}
 
 
 
@@ -78,20 +29,40 @@ class Category extends React.Component {
 
 
 class Dashboard extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      notes:[],
+      category:[],
+
+    }
+
+  }
+
+
+  componentWillMount() {
+    this.setState({notes:data})
+
+  }
+
+
   render () {
     return(
       <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
+        <h2>Dashboard</h2>
+        <br/>
       <Row>
         <Col xs="3">
-          <Category/>
+          <Category category={this.state.category}/>
         </Col>
         <Col>
-          <Note/>
+          <Notes notes={this.state.notes}/>
         </Col>
       </Row>
 
 
-      </Jumbotron>
+    </Jumbotron >
     )
   }
 }
