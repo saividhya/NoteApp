@@ -6,5 +6,5 @@ def recommendNotes():
     if 'user' not in session:
         abort(403)
     notes = Note.objects.all()
-    userId = session['user']['_id']
+    userEmail = session['user']['email']
     return jsonify(notes)

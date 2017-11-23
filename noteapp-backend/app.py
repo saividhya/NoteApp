@@ -6,7 +6,7 @@ from users import *
 from search import *
 from recommendation import *
 from notes import *
-from categories import *
+from tags import *
 from auth import *
 
 app = Flask(__name__)
@@ -16,6 +16,8 @@ db.init_app(app)
 
 ### Notes endpoints
 app.add_url_rule('/notes', None, getNotes, methods=["GET"])
+# /notes
+# /notes?tags=[tagNames...]
 app.add_url_rule('/notes', None, postNote, methods=["POST"])
 app.add_url_rule('/notes/<noteId>', None, getNote, methods=["GET"])
 app.add_url_rule('/notes/<noteId>', None, putNote, methods=["PUT"])
@@ -27,14 +29,16 @@ app.add_url_rule('/login', None, logout, methods=["DELETE"])
 
 ### Users endpoints
 app.add_url_rule('/users', None, postUser, methods=["POST"])
-app.add_url_rule('/users/<userId>', None, getUser, methods=["GET"])
-app.add_url_rule('/users/<userId>', None, putUser, methods=["PUT"])
+app.add_url_rule('/users/<userEmail>', None, getUser, methods=["GET"])
+app.add_url_rule('/users/<userEmail>', None, putUser, methods=["PUT"])
 
 ### Recommend endpoint
 app.add_url_rule('/recommend', None, recommendNotes, methods=["GET"])
 
 ### Category endpoint
-app.add_url_rule('/category', None, getCategories, methods=["GET"])
+app.add_url_rule('/tags', None, getTags, methods=["GET"])
+# /tags?page=user
+# /tags?page=general
 
 ### Search endpoint
 app.add_url_rule('/search', None, searchNotes, methods=["GET"])
