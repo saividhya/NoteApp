@@ -30,3 +30,8 @@ class Note(db.Document):
          'weights': {'title': 10, 'content': 4}
         }
     ]}
+
+class Events(db.Document):
+    email = db.StringField(max_length=200)
+    note = db.StringField(max_length=200)
+    event = db.StringField(max_length=200)

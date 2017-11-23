@@ -46,4 +46,4 @@ app.add_url_rule('/search', None, searchNotes, methods=["GET"])
 if __name__ == '__main__':
     app.debug = app.config['DEBUG']
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-    app.run()
+    app.run(debug=True)
