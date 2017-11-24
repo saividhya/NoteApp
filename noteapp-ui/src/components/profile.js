@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
+import { Container,Jumbotron} from 'reactstrap';
+import {Autocomplete} from './util.js'
 
 class Profile extends React.Component {
   render () {
     return(
-      <div>
-      Profile
-      </div>
+      <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
+          <Autocomplete/>
+      </Jumbotron>
     )
   }
 }

@@ -1,13 +1,21 @@
 import React from 'react';
+import { instanceOf } from 'prop-types';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 
-export default class Example extends React.Component {
+class Header extends React.Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
   constructor(props) {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    const { cookies } = this.props;
     this.state = {
-      collapsed: true
+      collapsed: true,
+      id: cookies.get('id')
     };
   }
 
@@ -15,6 +23,19 @@ export default class Example extends React.Component {
     this.setState({
       collapsed: !this.state.collapsed
     });
+  }
+
+  handleClick(event) {
+    const { cookies } = this.props;
+    // postLoginHistory("LOGOUT",cookies.get('id')).then((response) => {
+    //   console.log(response.json());
+    //   cookies.remove('id')
+    //   this.setState({id:cookies.remove('id')})
+    //   window.location.reload()
+    // }).catch (function (error) {
+    //     console.log('Request failed', error);
+    // })
+
   }
   render() {
 
@@ -37,8 +58,20 @@ export default class Example extends React.Component {
             </NavItem>
           </Nav>
           </Collapse>
+          {
+            "undefined"  === typeof this.state.id?
+                  <Nav className="ml-auto" navbar>
+                    <NavItem><NavLink href="/login">Login</NavLink></NavItem>
+                    <NavItem><NavLink href="/Register">Register</NavLink></NavItem>
+                  </Nav>:
+                    <Nav className="ml-auto" navbar>
+                      <NavItem><a className="nav-link" href="#" onClick={this.handleClick}>Logout</a> </NavItem>
+                    </Nav>
+          }
         </Navbar>
       </div>
     );
   }
 }
+
+export default withCookies(Header);
