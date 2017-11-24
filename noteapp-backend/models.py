@@ -31,7 +31,7 @@ class Note(db.Document):
         }
     ]}
 
-class Events(db.Document):
-    email = db.StringField(max_length=200)
-    note = db.StringField(max_length=200)
-    event = db.StringField(max_length=200)
+class Event(db.DynamicDocument):
+    type = db.StringField()
+    user = db.StringField()
+    timeStamp = db.DateTimeField(default=datetime.now)

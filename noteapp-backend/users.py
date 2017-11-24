@@ -16,7 +16,7 @@ def postUser():
     user.interests = request.json['interests']
     alreadyExist = User.objects(email=user.email)
     if len(alreadyExist) > 0:
-        abort(400)
+        abort(400, "user already exists")
     user.save()
     return jsonify(user)
 

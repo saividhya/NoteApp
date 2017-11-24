@@ -8,6 +8,7 @@ from recommendation import *
 from notes import *
 from tags import *
 from auth import *
+from event import *
 
 app = Flask(__name__)
 app.config.from_object('settings')
@@ -42,6 +43,10 @@ app.add_url_rule('/tags', None, getTags, methods=["GET"])
 
 ### Search endpoint
 app.add_url_rule('/search', None, searchNotes, methods=["GET"])
+
+### Event endpoint
+app.add_url_rule('/events', None, postEvent, methods=["POST"])
+app.add_url_rule('/events', None, getEvents, methods=["GET"])
 
 if __name__ == '__main__':
     app.debug = app.config['DEBUG']
