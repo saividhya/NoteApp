@@ -27,7 +27,7 @@ def postNote():
     note.tags = request.json['tags']
     note.likes = []
     note.pins = []
-    generateEvent("newNote", {"noteId": note.id})
+    generateEvent("new", {"noteId": note.id})
     note.save()
     return jsonify(note)
 
@@ -39,7 +39,7 @@ def getNote(noteId):
         note = note[0]
         #http://thegeorgeous.com/2015/02/02/Atomic-updates-in-monogodb-using-monogengine.html
         note.update(inc__views=1)
-        generateEvent("viewNote", {"noteId": note.id})
+        generateEvent("view", {"noteId": note.id})
         return jsonify(note)
     else:
         abort(404)
@@ -67,7 +67,7 @@ def getNotes():
     
     result['pinnedNotes'] = pinNotes
     result['myNotes'] = myNotes
-    generateEvent("getNotes")
+    generateEvent("get")
     return jsonify(result)
 
 def putNote(noteId):
@@ -79,31 +79,31 @@ def putNote(noteId):
         note = note[0]
         if 'title' in request.json:
             note.title = request.json['title']
-            generateEvent("titleChanged", {"noteId": note.id})
+            generateEvent("title", {"noteId": note.id})
         if 'content' in request.json:
             note.content = request.json['content']
-            generateEvent("contentChanged", {"noteId": note.id})
+            generateEvent("content", {"noteId": note.id})
         if 'access' in request.json:
             note.access = request.json['access']
-            generateEvent("accessChanged", {"noteId": note.id})
+            generateEvent("access", {"noteId": note.id})
         note.modified_date = datetime.now
         if 'contributors' in request.json:
             if checkUsers(request.json['contributors']) is False:
                 abort(400, "contributors does not have real user emails")
-            generateEvent("contributorsChanged", {"noteId": note.id})
+            generateEvent("contributors", {"noteId": note.id})
             note.contributors = request.json['contributors']
         if 'tags' in request.json:
-            generateEvent("tagsChanged", {"noteId": note.id})
+            generateEvent("tags", {"noteId": note.id})
             note.tags = request.json['tags']
         if 'likes' in request.json:
             if checkUsers(request.json['likes']) is False:
                 abort(400, "likes does not have real user emails")
-            generateEvent("likeChanged", {"noteId": note.id})
+            generateEvent("like", {"noteId": note.id})
             note.likes = request.json['likes']
         if 'pins' in request.json:
             if checkUsers(request.json['pins']) is False:
                 abort(400, "pins does not have real user emails")
-            generateEvent("pinChanged", {"noteId": note.id})
+            generateEvent("pin", {"noteId": note.id})
             note.pins = request.json['pins']
         note.save()
         return jsonify(note)
@@ -119,7 +119,7 @@ def deleteNote(noteId):
         note = note[0]
         if str(note.author) != userEmail:
             abort(403)
-        generateEvent("deletedNote", {"noteId": note.id})
+        generateEvent("delete", {"noteId": note.id})
         note.delete()
     else:
         abort(404)
