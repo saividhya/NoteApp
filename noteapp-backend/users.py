@@ -4,30 +4,37 @@ from models import *
 
 def postUser():
     user = User()
-    user.id = uuid.uuid4()
+    #if request.json['adf']:
+    if 'username' not in request.json or \
+            'email' not in request.json or \
+            'password' not in request.json or \
+            'interests' not in request.json:
+        abort(400)
     user.username = request.json['username']
     user.email = request.json['email']
     user.password = request.json['password']
     user.interests = request.json['interests']
     alreadyExist = User.objects(email=user.email)
     if len(alreadyExist) > 0:
-        abort(400)
+        abort(400, "user already exists")
     user.save()
     return jsonify(user)
 
-def getUser(userId):
+def getUser(userEmail):
     if 'user' not in session:
         abort(403)
-    user = User.objects(id=userId)
+    user = User.objects(email=userEmail)
     if len(user) == 1:
         return jsonify(user)
     else:
         abort(404)
 
-def putUser(userId):
+def putUser(userEmail):
     if 'user' not in session:
         abort(403)
-    user = User.objects(id=userId)
+    if 'interests' not in request.json:
+        abort(400)
+    user = User.objects(email=userEmail)
     if len(user) == 1:
         user.interests = request.json['interests']
         user.save()

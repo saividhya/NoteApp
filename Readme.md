@@ -11,4 +11,4 @@ Open User model
 - Most searched term
 - Timebased search
 - Most colloborated notes
-- 
+-
