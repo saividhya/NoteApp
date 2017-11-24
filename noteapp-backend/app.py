@@ -9,11 +9,27 @@ from notes import *
 from tags import *
 from auth import *
 from event import *
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object('settings')
 #csrf(app)
+app.config['CORS_HEADERS']=['Content-Type','accept','accept-encoding','authorization','content-type',
+'dnt','origin','user-agent','x-csrftoken','x-requested-with',]
+CORS(app)
 db.init_app(app)
+
+@app.before_request
+def option_autoreply():
+    """ Always reply 200 on OPTIONS request """
+
+    if request.method == 'OPTIONS':
+        resp = app.make_default_options_response()
+        return resp
+
+
+
+
 
 ### Notes endpoints
 app.add_url_rule('/notes', None, getNotes, methods=["GET"])

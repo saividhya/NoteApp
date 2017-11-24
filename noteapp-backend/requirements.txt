@@ -6,3 +6,4 @@ flask-mongoengine
 flask-csrf
 scipy
 sklearn
+flask-cors

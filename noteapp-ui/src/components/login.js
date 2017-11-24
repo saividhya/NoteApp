@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 //import {getToken,postLoginHistory} from './api.js'
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
+import {login} from './api.js'
 
 export class Login extends React.Component {
   static propTypes = {
@@ -60,31 +61,16 @@ export class Login extends React.Component {
     }
     let email= this.state.email
     let password=this.state.password
-    // getToken(userName,password).then( (response) => {
-    //   if(response.ok) {
-    //     response.json().then(json=> {
-    //       const { cookies } = this.props;
-    //       cookies.set('id', json.token, { path: '/' });
-    //       console.log(  cookies.get('id'))
-    //       postLoginHistory("LOGIN",cookies.get('id')).then((response) => {
-    //         console.log(response.json());
-    //         window.location='/profile'
-    //       }).catch (function (error) {
-    //           console.log('Request failed', error);
-    //       })
-    //
-    //     }
-    //
-    //       )
-    //
-    //     }
-    // }).then((response) => {
-    //
-    // })
-    // .catch (function (error) {
-    //     console.log('Request failed', error);
-    // });
-  //  console.log(userName+" "+password)
+    login(email,password).then( (response) => {
+      if(response.ok) {
+         console.log(response)
+      }
+
+
+
+    }).catch (function (error) {
+        console.log('Request failed', error);
+      })
 
     }
 

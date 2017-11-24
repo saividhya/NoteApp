@@ -11,6 +11,7 @@ import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 import TagsInput from 'react-tagsinput'
 import '../static/css/react-tagsinput.css'
 import {Autocomplete} from './util.js'
+import {register} from './api.js'
 
 export class Register extends React.Component {
   static propTypes = {
@@ -41,6 +42,7 @@ export class Register extends React.Component {
   }
 
   handleTagChange(tags) {
+    //console.log(tags)
     this.setState({tags})
   }
 
@@ -71,6 +73,20 @@ export class Register extends React.Component {
     }
     let password=this.state.password
     let email=this.state.email
+    let tags= this.state.tags
+    console.log(tags)
+    register(email,password,tags).then( (response) => {
+      if(response.ok) {
+         window.location='/login'
+      }
+
+
+
+    }).catch (function (error) {
+        console.log('Request failed', error);
+      })
+
+
     // postUser(userName,email,password).then( (response) => {
     //   if(response.ok) {
     //     getToken(userName,password).then( (response) => {
@@ -122,7 +138,7 @@ export class Register extends React.Component {
           <Form onSubmit={this.handleSubmit}>
             <TextComponent holder="Enter email" value={this.state.email} id="email" label="Email" onChange={this.handleChange} errors={this.state.errors.email}/>
             <PasswordComponent holder="Enter password" value={this.state.password} id="password" label="password" onChange={this.handleChange} errors={this.state.errors.password}/>
-            <Autocomplete/>
+            <Autocomplete tags={this.state.tags} onChange={this.handleTagChange}/>
             <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
 
               <br/>

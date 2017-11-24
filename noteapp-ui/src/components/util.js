@@ -149,7 +149,6 @@ export class Autocomplete extends React.Component {
   constructor () {
     super()
     this.state = {
-      tags: [],
       autoSuggest: [
 
       ],
@@ -160,7 +159,8 @@ export class Autocomplete extends React.Component {
   }
 
   handleChange (tags) {
-    this.setState({tags})
+    //console.log(tags)
+    this.props.onChange(tags);
   }
 
  componentWillMount() {
@@ -214,6 +214,6 @@ export class Autocomplete extends React.Component {
       )
     }
 
-    return <TagsInput renderInput={autocompleteRenderInput} value={this.state.tags} onChange={this.handleChange} />
+    return <TagsInput renderInput={autocompleteRenderInput} value={this.props.tags} onChange={this.handleChange} />
   }
 }
