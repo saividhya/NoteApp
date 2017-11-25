@@ -7,6 +7,8 @@ import '../static/css/react-tagsinput.css'
 import Autosuggest from 'react-autosuggest'
 import Slider from 'react-slick'
 import {getAllTags} from './api.js'
+import Pin from 'react-icons/lib/go/pin';
+import Heart from 'react-icons/lib/go/heart';
 
 export class Notes extends React.Component {
   constructor(props) {
@@ -22,24 +24,30 @@ export class Notes extends React.Component {
       }
   }
   render () {
-
+    const pinned = this.props.pinned
     return (
       <div>
-
-
         <Row>
         {this.props.notes.map(row=>
           <Col key={row._id} xs="6" sm="4">
-            <Card style={{borderStyle: "solid",borderWidth: "0px 4px 4px 0px"}}>
+            <a style={{ textDecoration: 'none', color:'inherit' }} href={"notes/"+row._id} to={"notes/"+row._id}>
+            <Card style={{borderStyle: 'solid', borderWidth: '0.5px 4px 4px 0.5px'}}>
               <CardBody>
-                <CardTitle style={{fontSize: '1.2em'}}>{this.truncate(row.title,15)}</CardTitle>
+                <CardTitle style={{textAlign: 'left', fontSize: '1.2em'}}>{this.truncate(row.title,15)}
+                <span style={{float: 'right'}}>
+                {pinned ? 
+                  (<Pin style={{color: '#8A2BE2'}}/>) : 
+                  (<Pin/>)
+                }
+                  <Heart/>
+                </span>
+              </CardTitle>
               </CardBody>
               <CardBody>
-                <CardText>{this.truncate(row.content,40)}</CardText>
-                <CardLink href={"notes/"+row._id} to={"notes/"+row._id}>View</CardLink>
-
+                <CardText>{this.truncate(row.content,60)}</CardText>
               </CardBody>
             </Card>
+            </a>
             <p></p>
           </Col>
         )}
@@ -79,20 +87,20 @@ export class RecommendNotes extends React.Component {
       <Slider {...settings}>
         {this.props.notes.map(row=>
           <div key={row._id}>
-            <Row>
-              <Col xs="9" sm="10">
-                <Card style={{borderStyle: "solid",borderWidth: "0px 4px 4px 0px"}}>
-                  <CardBody>
-                      <CardTitle style={{fontSize: '1.2em'}}>{this.truncate(row.title,15)}</CardTitle>
-                  </CardBody>
-                  <CardBody>
-                    <CardText>{this.truncate(row.content,40)}</CardText>
-                    <CardLink href={"notes/"+row._id} to={"notes/"+row._id}>View</CardLink>
-
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
+            <a style={{ textDecoration: 'none', color:'inherit' }} href={"notes/"+row._id} to={"notes/"+row._id}>
+              <Row>
+                <Col xs="9" sm="10">
+                  <Card style={{borderStyle: "solid",borderWidth: "0.5px 4px 4px 0.5px"}}>
+                    <CardBody>
+                      <CardTitle style={{textAlign: "left", fontSize: '1.2em'}}>{this.truncate(row.title,15)} <span style={{float: "right"}}><Pin/><Heart/></span></CardTitle>
+                    </CardBody>
+                    <CardBody>
+                      <CardText>{this.truncate(row.content,40)}</CardText>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </a>
           </div>
         )}
       </Slider >

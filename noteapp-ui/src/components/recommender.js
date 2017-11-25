@@ -8,7 +8,7 @@ export default class Recommender extends Component {
 
     return (
         <div>
-        <h2>Recommendations for You! </h2>
+        <p style={{fontSize: '2em'}}>Recommendations for You! </p>
         <RecommendNotes notes={this.props.notes}/>
         </div>
 

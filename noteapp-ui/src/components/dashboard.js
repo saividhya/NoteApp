@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row,Col,Jumbotron,ListGroupItem,ListGroup,Button} from 'reactstrap';
+import { Row,Col,Jumbotron,ListGroupItem,ListGroup,Button, Label} from 'reactstrap';
 import data from './data/dashboard.json'
 import {Notes} from './util.js'
 import Recommender from './recommender.js'
@@ -22,7 +22,7 @@ class Category extends React.Component {
     //console.log(this.props.category)
     return(
       <div>
-        <h3> Category </h3><br/>
+        <p style={{fontSize: '1.3em'}}> Category </p><br/>
         <ListGroup>
           {
             <ListGroupItem tag="a" name="all"
@@ -148,16 +148,15 @@ class Dashboard extends React.Component {
           <Recommender notes={this.state.recommendNotes}/>
         </Jumbotron >
         <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
-          <Row>
-            <Col>
-              <h2>Dashboard</h2>
-            </Col>
-            <Col>
-              <p className="text-right">
-                <a href="/create" to="/create"><Button style={{backgroundColor: '#8A2BE2'}}
-                  type="submit" value="Create">Create</Button></a></p>
-            </Col>
-          </Row>
+          <div>
+            <span style={{fontSize: '1.7em'}}>
+              All Yours
+            </span>
+            <span style={{float: 'right'}}>
+              <a href="/create" to="/create"><Button style={{backgroundColor: '#8A2BE2'}}
+              type="submit" value="Create">Create</Button></a>
+            </span>
+          </div>
 
           <br/>
           <Row>
@@ -165,7 +164,14 @@ class Dashboard extends React.Component {
               <Category category={this.state.category} onClick={this.handleClick}/>
             </Col>
             <Col>
-              <Notes notes={this.state.notes}/>
+              <Row>
+                <Label style={{textAlign: 'center'}} for={this.props.id} sm={12}>Your Pinned Notes</Label>
+                <Notes pinned={true} notes={this.state.notes}/>
+              </Row>
+              <Row>
+                <Label style={{textAlign: 'center'}} for={this.props.id} sm={12}>Your Notes</Label>
+                <Notes notes={this.state.notes}/>
+              </Row>
             </Col>
           </Row>
         </Jumbotron >

@@ -10,8 +10,13 @@
     "morgan": "^1.9.0",
     "react": "^16.1.1",
     "react-autosuggest": "^9.3.2",
+    "react-cookie": "^2.1.2",
     "react-dom": "^16.1.1",
+    "react-icons": "^2.2.7",
+    "react-quill": "^1.2.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
+    "react-slick": "^0.15.4",
     "react-tagsinput": "^3.19.0",
     "reactstrap": "^5.0.0-alpha.3"
   },
