@@ -87,42 +87,7 @@ export class Register extends React.Component {
       })
 
 
-    // postUser(userName,email,password).then( (response) => {
-    //   if(response.ok) {
-    //     getToken(userName,password).then( (response) => {
-    //       if(response.ok) {
-    //         response.json().then(json=> {
-    //           const { cookies } = this.props;
-    //           cookies.set('id', json.token, { path: '/' });
-    //           console.log(  cookies.get('id'))
-    //           postLoginHistory("LOGIN",cookies.get('id')).then((response) => {
-    //             console.log(response.json());
-    //             window.location='/'
-    //           }).catch (function (error) {
-    //               console.log('Request failed', error);
-    //           })
-    //
-    //         }
-    //
-    //           )
-    //
-    //         }
-    //     }).then((response) => {
-    //
-    //     })
-    //     .catch (function (error) {
-    //         console.log('Request failed', error);
-    //     });
-    //   }
-    //
-    //
-    // }).then((response) => {
-    //
-    // })
-    // .catch (function (error) {
-    //     console.log('Request failed', error);
-    // });
-  //  console.log(userName+" "+password+" "+email)
+  
 
     }
 

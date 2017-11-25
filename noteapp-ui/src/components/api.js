@@ -75,13 +75,64 @@ export function getTags() {
 }
 
 export function getNotesForTag(tags) {
-  const url = `${BASE_URL}/notes?tags=`+tags;
+  const url = `${BASE_URL}/notes?tags=` + encodeURIComponent(tags);
   return fetch(url, {
     credentials: 'include',
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
+})
+
+}
+
+export function getNoteById(noteId) {
+  const url = `${BASE_URL}/notes/`+noteId;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+})
+
+}
+
+
+export function updateNoteById(noteId,payload) {
+  const url = `${BASE_URL}/notes/`+noteId;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( payload )
+})
+
+}
+
+export function getAllTags() {
+  const url = `${BASE_URL}/tags?page=general`;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+})
+
+}
+
+export function postNote(payload) {
+  const url = `${BASE_URL}/notes`;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( payload )
 })
 
 }

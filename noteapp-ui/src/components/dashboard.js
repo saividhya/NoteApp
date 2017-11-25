@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row,Col,Jumbotron,ListGroupItem,ListGroup} from 'reactstrap';
+import { Row,Col,Jumbotron,ListGroupItem,ListGroup,Button} from 'reactstrap';
 import data from './data/dashboard.json'
 import {Notes} from './util.js'
 import Recommender from './recommender.js'
@@ -148,7 +148,17 @@ class Dashboard extends React.Component {
           <Recommender notes={this.state.recommendNotes}/>
         </Jumbotron >
         <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
-          <h2>Dashboard</h2>
+          <Row>
+            <Col>
+              <h2>Dashboard</h2>
+            </Col>
+            <Col>
+              <p className="text-right">
+                <a href="/create" to="/create"><Button style={{backgroundColor: '#8A2BE2'}}
+                  type="submit" value="Create">Create</Button></a></p>
+            </Col>
+          </Row>
+
           <br/>
           <Row>
             <Col xs="3">

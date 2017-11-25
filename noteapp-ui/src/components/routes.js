@@ -6,7 +6,7 @@ import Profile from './profile.js'
 import Note from './note.js'
 import Login from './login.js'
 import Register from './register.js'
-
+import Create from './create.js'
 import {
   BrowserRouter as Router,
   Route,
@@ -24,6 +24,7 @@ class Routes extends React.Component {
           <Route exact path="/notes/:id" component={Note}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/register" component={Register}/>
+          <Route exact path="/create" component={Create}/>
       </div>
       </Router>
     )

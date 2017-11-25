@@ -6,6 +6,7 @@ import TagsInput from 'react-tagsinput'
 import '../static/css/react-tagsinput.css'
 import Autosuggest from 'react-autosuggest'
 import Slider from 'react-slick'
+import {getAllTags} from './api.js'
 
 export class Notes extends React.Component {
   constructor(props) {
@@ -36,14 +37,14 @@ export class Notes extends React.Component {
               <CardBody>
                 <CardText>{this.truncate(row.content,40)}</CardText>
                 <CardLink href={"notes/"+row._id} to={"notes/"+row._id}>View</CardLink>
-                <CardLink href="#">Another Link</CardLink>
+
               </CardBody>
             </Card>
             <p></p>
           </Col>
         )}
         </Row>
-      
+
 
 
       </div>
@@ -87,7 +88,7 @@ export class RecommendNotes extends React.Component {
                   <CardBody>
                     <CardText>{this.truncate(row.content,40)}</CardText>
                     <CardLink href={"notes/"+row._id} to={"notes/"+row._id}>View</CardLink>
-                    <CardLink href="#">Another Link</CardLink>
+
                   </CardBody>
                 </Card>
               </Col>
@@ -173,6 +174,33 @@ export class PasswordComponent extends React.Component {
 }
 
 
+export class SelectComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange=this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.props.onChange(this.props.id,event.target.value)
+  }
+  render () {
+    return(
+      <FormGroup row>
+        <Label for={this.props.id} sm={2}>{this.props.label}</Label>
+        <Col sm={10}>
+          <Input type="select" name={this.props.id} id={this.props.id} value={this.props.value} onChange={this.handleChange}>
+            <option id="" value=""></option>
+            {this.props.options.map(option =>
+              <option key={option.objectId} id={option.objectId} value={option.objectName}>{option.objectName}</option>)}
+          </Input>
+        </Col>
+      </FormGroup>
+    )
+
+  }
+}
+
+
 
 export class Autocomplete extends React.Component {
 
@@ -194,18 +222,35 @@ export class Autocomplete extends React.Component {
   }
 
  componentWillMount() {
-   this.setState({
-     autoSuggest: [
-         {
-          "name": "cvbrew",
-          "normValue": 0.5
-        },
-        {
-            "name": "htresvb",
-            "normValue": 0.5
-        }
-     ]
-   })
+
+   getAllTags().then( (response) =>
+   {
+       if(response.ok) {
+         response.json().then(
+           data => {
+             //console.log(data)
+             this.setState({autoSuggest:data})
+             // this.setState({recommendNotes:data.myNotes})
+             //console.log(data.myNotes);
+
+             })
+       }
+     }).catch (function (error) {
+         console.log('Request failed', error);
+       })
+
+  //  this.setState({
+  //    autoSuggest: [
+  //        {
+  //         "name": "cvbrew",
+  //         "normValue": 0.5
+  //       },
+  //       {
+  //           "name": "htresvb",
+  //           "normValue": 0.5
+  //       }
+  //    ]
+  //  })
  }
 
 
@@ -244,6 +289,7 @@ export class Autocomplete extends React.Component {
       )
     }
 
-    return <TagsInput renderInput={autocompleteRenderInput} value={this.props.tags} onChange={this.handleChange} />
+    return <TagsInput renderInput={autocompleteRenderInput}
+      value={this.props.tags} onChange={this.handleChange} />
   }
 }
