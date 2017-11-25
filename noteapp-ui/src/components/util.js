@@ -9,6 +9,7 @@ import Slider from 'react-slick'
 import {getAllTags} from './api.js'
 import Pin from 'react-icons/lib/go/pin';
 import Heart from 'react-icons/lib/go/heart';
+import Share from 'react-icons/lib/md/share';
 
 export class Notes extends React.Component {
   constructor(props) {
@@ -40,6 +41,7 @@ export class Notes extends React.Component {
                   (<Pin/>)
                 }
                   <Heart/>
+                  <Share/>
                 </span>
               </CardTitle>
               </CardBody>
@@ -92,7 +94,7 @@ export class RecommendNotes extends React.Component {
                 <Col xs="9" sm="10">
                   <Card style={{borderStyle: "solid",borderWidth: "0.5px 4px 4px 0.5px"}}>
                     <CardBody>
-                      <CardTitle style={{textAlign: "left", fontSize: '1.2em'}}>{this.truncate(row.title,15)} <span style={{float: "right"}}><Pin/><Heart/></span></CardTitle>
+                      <CardTitle style={{textAlign: "left", fontSize: '1.2em'}}>{this.truncate(row.title,15)} <span style={{float: "right"}}><Pin/><Heart/><Share/></span></CardTitle>
                     </CardBody>
                     <CardBody>
                       <CardText>{this.truncate(row.content,40)}</CardText>

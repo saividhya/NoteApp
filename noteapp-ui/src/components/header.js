@@ -1,8 +1,9 @@
 import React from 'react';
 import { instanceOf } from 'prop-types';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Input } from 'reactstrap';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 import {logout} from './api.js'
+import { TextComponent } from './util';
 
 class Header extends React.Component {
   static propTypes = {
@@ -59,6 +60,7 @@ class Header extends React.Component {
               <NavLink href="/Profile">Profile</NavLink>
             </NavItem>
           </Nav>
+          <Input style={{border: 'none'}} placeholder="full text search query" value={this.state.query} id="search" onChange={this.handleChange}/>
           </Collapse>
           {
             "undefined"  === typeof this.state.id?
