@@ -1,25 +1,40 @@
 import React  from 'react'
 import { Card, CardBody,
   CardTitle, CardText,Row,Col,Jumbotron,CardLink,
-Container,Form, FormGroup, Label, Input,Alert } from 'reactstrap';
+Container,Form, FormGroup, Label, Input,Alert,CardDeck } from 'reactstrap';
 import TagsInput from 'react-tagsinput'
 import '../static/css/react-tagsinput.css'
 import Autosuggest from 'react-autosuggest'
 import Slider from 'react-slick'
 
 export class Notes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.truncate = this.truncate.bind(this);
+  }
+  truncate(str,len) {
+      if(str.length>len) {
+        return str.substring(0,len)+'...';
+      }
+      else {
+        return str
+      }
+  }
   render () {
+
     return (
       <div>
-      <Row>
+
+
+        <Row>
         {this.props.notes.map(row=>
           <Col key={row._id} xs="6" sm="4">
-            <Card>
+            <Card style={{borderStyle: "solid",borderWidth: "0px 4px 4px 0px"}}>
               <CardBody>
-                <CardTitle>{row.title}</CardTitle>
+                <CardTitle style={{fontSize: '1.2em'}}>{this.truncate(row.title,15)}</CardTitle>
               </CardBody>
               <CardBody>
-                <CardText>{row.content}</CardText>
+                <CardText>{this.truncate(row.content,40)}</CardText>
                 <CardLink href={"notes/"+row._id} to={"notes/"+row._id}>View</CardLink>
                 <CardLink href="#">Another Link</CardLink>
               </CardBody>
@@ -28,12 +43,27 @@ export class Notes extends React.Component {
           </Col>
         )}
         </Row>
+      
+
+
       </div>
     )
   }
 }
 
 export class RecommendNotes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.truncate = this.truncate.bind(this);
+  }
+  truncate(str,len) {
+      if(str.length>len) {
+        return str.substring(0,len)+'...';
+      }
+      else {
+        return str
+      }
+  }
   render () {
     var settings = {
       dots: true,
@@ -47,15 +77,15 @@ export class RecommendNotes extends React.Component {
     return (
       <Slider {...settings}>
         {this.props.notes.map(row=>
-          <div>
+          <div key={row._id}>
             <Row>
-              <Col xs="8 " sm="10">
-                <Card>
+              <Col xs="9" sm="10">
+                <Card style={{borderStyle: "solid",borderWidth: "0px 4px 4px 0px"}}>
                   <CardBody>
-                    <CardTitle>{row.title}</CardTitle>
+                      <CardTitle style={{fontSize: '1.2em'}}>{this.truncate(row.title,15)}</CardTitle>
                   </CardBody>
                   <CardBody>
-                    <CardText>{row.content}</CardText>
+                    <CardText>{this.truncate(row.content,40)}</CardText>
                     <CardLink href={"notes/"+row._id} to={"notes/"+row._id}>View</CardLink>
                     <CardLink href="#">Another Link</CardLink>
                   </CardBody>

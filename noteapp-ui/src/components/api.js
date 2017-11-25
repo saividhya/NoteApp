@@ -26,13 +26,62 @@ export function login(email,password) {
     "email":email,
     "password":password
   }
-  console.log(payload)
   return fetch(url, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify( payload )
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( payload )
+})
+
+}
+
+export function logout() {
+  const url = `${BASE_URL}/login`;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+})
+
+}
+
+
+export function getNotes() {
+  const url = `${BASE_URL}/notes`;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+})
+
+}
+
+export function getTags() {
+  const url = `${BASE_URL}/tags`;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+})
+
+}
+
+export function getNotesForTag(tags) {
+  const url = `${BASE_URL}/notes?tags=`+tags;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
 })
 
 }

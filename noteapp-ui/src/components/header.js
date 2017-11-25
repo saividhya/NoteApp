@@ -2,6 +2,7 @@ import React from 'react';
 import { instanceOf } from 'prop-types';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
+import {logout} from './api.js'
 
 class Header extends React.Component {
   static propTypes = {
@@ -13,9 +14,10 @@ class Header extends React.Component {
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.handleClick = this.handleClick.bind(this);
     const { cookies } = this.props;
+    //console.log(cookies.get('session'))
     this.state = {
       collapsed: true,
-      id: cookies.get('id')
+      id: cookies.get('email')
     };
   }
 
@@ -27,14 +29,14 @@ class Header extends React.Component {
 
   handleClick(event) {
     const { cookies } = this.props;
-    // postLoginHistory("LOGOUT",cookies.get('id')).then((response) => {
-    //   console.log(response.json());
-    //   cookies.remove('id')
-    //   this.setState({id:cookies.remove('id')})
-    //   window.location.reload()
-    // }).catch (function (error) {
-    //     console.log('Request failed', error);
-    // })
+     logout().then( (response) => {
+        if(response.ok) {
+          this.setState({id:cookies.remove('email')})
+          window.location="/"
+        }
+     }).catch (function (error) {
+         console.log('Request failed', error);
+       })
 
   }
   render() {

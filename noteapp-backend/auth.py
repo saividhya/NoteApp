@@ -3,13 +3,14 @@ from models import *
 from event import generateEvent
 
 def login():
+    print(request.json)
     email = request.json['email']
     password = request.json['password']
     user = User.objects(email=email)
     if len(user) == 1 and user[0].password == password:
         session['user'] = user[0]
         generateEvent("login")
-        return ('', 200)
+        return jsonify({"email":user[0].email})
     else:
         abort(403)
 

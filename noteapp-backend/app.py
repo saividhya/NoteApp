@@ -15,8 +15,8 @@ app = Flask(__name__)
 app.config.from_object('settings')
 #csrf(app)
 app.config['CORS_HEADERS']=['Content-Type','accept','accept-encoding','authorization','content-type',
-'dnt','origin','user-agent','x-csrftoken','x-requested-with',]
-CORS(app)
+'dnt','origin','user-agent','x-csrftoken','x-requested-with','Access-Control-Allow-Origin']
+CORS(app, supports_credentials=True)
 db.init_app(app)
 
 @app.before_request

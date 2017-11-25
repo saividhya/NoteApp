@@ -9,8 +9,9 @@ import {
 //import {getToken,postLoginHistory} from './api.js'
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 import {login} from './api.js'
+var request = require('request')
 
-export class Login extends React.Component {
+class Login extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   };
@@ -61,18 +62,22 @@ export class Login extends React.Component {
     }
     let email= this.state.email
     let password=this.state.password
-    login(email,password).then( (response) => {
-      if(response.ok) {
-         console.log(response)
-      }
+    const { cookies } = this.props;
+    login(email,password)
+      .then( (response) => {
+        if(response.ok) {
+          response.json().then(
+            function(data){
+              //console.log(data);
+                cookies.set('email', data.email);
+                window.location='/'
+              })
+        }
+      }).catch (function (error) {
+          console.log('Request failed', error);
+        })
 
-
-
-    }).catch (function (error) {
-        console.log('Request failed', error);
-      })
-
-    }
+     }
 
   render () {
     return(

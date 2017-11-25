@@ -9,7 +9,6 @@ def postNote():
         abort(403)
     if 'title' not in request.json or \
             'content' not in request.json or \
-            'content' not in request.json or \
             'access' not in request.json or \
             'tags' not in request.json:
             abort(400)
@@ -64,7 +63,7 @@ def getNotes():
         pinNotes = []
     if len(myNotes) <= 0:
         myNotes = []
-    
+
     result['pinnedNotes'] = pinNotes
     result['myNotes'] = myNotes
     generateEvent("get")
