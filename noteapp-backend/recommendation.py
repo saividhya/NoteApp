@@ -37,28 +37,15 @@ def recommendNotes():
     user_prediction = predict(data, user_similarity)
     prediction  = np.argsort(-user_prediction[users.index(userEmail)])
     result = [notes[i] for i in prediction]
-    print result
     notes = []
-    print userEmail
     for i in result:
         try:
             a = Note.objects(id__=i,author__ne=userEmail,pins__nin=[userEmail],contributors__nin=[userEmail],access__="public")
-            print a
             if len(a) > 0:
                 notes.append(a)
         except:
             continue
     return jsonify(notes)    
-
-class MyEncoder(json.JSONEncoder):
-    def encode_object(self, obj):
-        return { 'id':unicode(obj.id), 'other_property': obj.other_property }
-
-    def default(self, obj):
-        if hasattr(obj, '__iter__'):
-            return [ self.encode_object(x) for x in obj ]
-        else:
-            return self.encode_object(obj)
 
 
 def contentRecommendNotes():
