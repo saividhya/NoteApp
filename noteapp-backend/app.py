@@ -52,6 +52,8 @@ app.add_url_rule('/users/<userEmail>', None, putUser, methods=["PUT"])
 ### Recommend endpoint
 app.add_url_rule('/recommend', None, recommendNotes, methods=["GET"])
 
+app.add_url_rule('/contentrecommend', None, contentRecommendNotes, methods=["GET"])
+
 ### Category endpoint
 app.add_url_rule('/tags', None, getTags, methods=["GET"])
 # /tags?page=user
