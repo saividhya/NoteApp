@@ -56,6 +56,7 @@ class Dashboard extends React.Component {
     this.state = {
       notes:[],
       recommendNotes:[],
+      pinnedNotes:[],
       category:[],
 
     }
@@ -73,6 +74,8 @@ class Dashboard extends React.Component {
               data => {
                 this.setState({notes:data.myNotes})
                 this.setState({recommendNotes:data.myNotes})
+
+                this.setState({pinnedNotes:data.pinnedNotes})
                 //console.log(data.myNotes);
 
                 })
@@ -111,6 +114,7 @@ class Dashboard extends React.Component {
             data => {
               this.setState({notes:data.myNotes})
               this.setState({recommendNotes:data.myNotes})
+              this.setState({pinnedNotes:data.pinnedNotes})
               //console.log(data.myNotes);
 
               })
@@ -142,6 +146,7 @@ class Dashboard extends React.Component {
 
 
   render () {
+
     return(
       <div>
         <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
@@ -164,14 +169,14 @@ class Dashboard extends React.Component {
               <Category category={this.state.category} onClick={this.handleClick}/>
             </Col>
             <Col>
-              <Row>
-                <Label style={{textAlign: 'center'}} for={this.props.id} sm={12}>Your Pinned Notes</Label>
-                <Notes pinned={true} notes={this.state.notes}/>
-              </Row>
-              <Row>
+
+                <Label style={{textAlign: 'center'}} for="pinned" sm={12}>Your Pinned Notes</Label>
+                <Notes id="pinned" pinned={true} notes={this.state.pinnedNotes}/>
+
+
                 <Label style={{textAlign: 'center'}} for={this.props.id} sm={12}>Your Notes</Label>
                 <Notes notes={this.state.notes}/>
-              </Row>
+
             </Col>
           </Row>
         </Jumbotron >

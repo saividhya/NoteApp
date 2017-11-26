@@ -1,7 +1,7 @@
 import React  from 'react'
 import { Card, CardBody,
   CardTitle, CardText,Row,Col,Jumbotron,CardLink,
-Container,Form, FormGroup, Label, Input,Alert,CardDeck } from 'reactstrap';
+Container,Form, FormGroup, Label, Input,Alert,CardDeck,Button } from 'reactstrap';
 import TagsInput from 'react-tagsinput'
 import '../static/css/react-tagsinput.css'
 import Autosuggest from 'react-autosuggest'
@@ -10,11 +10,20 @@ import {getAllTags} from './api.js'
 import Pin from 'react-icons/lib/go/pin';
 import Heart from 'react-icons/lib/go/heart';
 import Share from 'react-icons/lib/md/share';
+import { instanceOf } from 'prop-types';
+import Cookies from 'universal-cookie';
+import {HeartComponent} from './icons.js'
 
 export class Notes extends React.Component {
   constructor(props) {
     super(props);
     this.truncate = this.truncate.bind(this);
+    this.handleUnlike = this.handleUnlike.bind(this);
+    this.handleLike = this.handleLike.bind(this);
+    this.state = {
+      heart: false,
+
+    }
   }
   truncate(str,len) {
       if(str.length>len) {
@@ -24,32 +33,46 @@ export class Notes extends React.Component {
         return str
       }
   }
+
+  handleUnlike(event) {
+
+  }
+
+  handleLike(event) {
+
+  }
+
   render () {
     const pinned = this.props.pinned
+    const cookies = new Cookies();
+
+    //console.log(  cookies.get('email'))
     return (
       <div>
         <Row>
         {this.props.notes.map(row=>
           <Col key={row._id} xs="6" sm="4">
-            <a style={{ textDecoration: 'none', color:'inherit' }} href={"notes/"+row._id} to={"notes/"+row._id}>
+
             <Card style={{borderStyle: 'solid', borderWidth: '0.5px 4px 4px 0.5px'}}>
               <CardBody>
                 <CardTitle style={{textAlign: 'left', fontSize: '1.2em'}}>{this.truncate(row.title,15)}
                 <span style={{float: 'right'}}>
-                {pinned ? 
-                  (<Pin style={{color: '#8A2BE2'}}/>) : 
+                {pinned ?
+                  (<Pin style={{color: '#8A2BE2'}}/>) :
                   (<Pin/>)
                 }
-                  <Heart/>
+                <HeartComponent likes={row.likes} id={row._id}/>
                   <Share/>
                 </span>
               </CardTitle>
               </CardBody>
+              <a style={{ textDecoration: 'none', color:'inherit' }} href={"notes/"+row._id} to={"notes/"+row._id}>
               <CardBody>
                 <CardText>{this.truncate(row.content,60)}</CardText>
               </CardBody>
+              </a>
             </Card>
-            </a>
+
             <p></p>
           </Col>
         )}
