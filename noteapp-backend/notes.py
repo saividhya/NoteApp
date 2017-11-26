@@ -53,10 +53,10 @@ def getNotes():
 
     if request.args.get('tags') is not None:
         tags = request.args.get('tags').split(',')
-        pinNotes = Note.objects(access__exact="public", pins__in=[userEmail], tags__in=tags).order_by("-modified_date")
+        pinNotes = Note.objects(pins__in=[userEmail], tags__in=tags).order_by("-modified_date")
         myNotes = Note.objects(id__nin=pinNotes.all().values_list('id'), contributors__in=[userEmail], tags__in=tags).order_by("-modified_date")
     else:
-        pinNotes = Note.objects(access__exact="public", pins__in=[userEmail]).order_by("-modified_date")
+        pinNotes = Note.objects(pins__in=[userEmail]).order_by("-modified_date")
         myNotes = Note.objects(id__nin=pinNotes.all().values_list('id'), contributors__in=[userEmail]).order_by("-modified_date")
 
     if len(pinNotes) <= 0:
