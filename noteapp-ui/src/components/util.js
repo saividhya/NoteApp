@@ -12,7 +12,7 @@ import Heart from 'react-icons/lib/go/heart';
 import Share from 'react-icons/lib/md/share';
 import { instanceOf } from 'prop-types';
 import Cookies from 'universal-cookie';
-import {HeartComponent} from './icons.js'
+import {HeartComponent,PinComponent,ShareComponent} from './icons.js'
 
 export class Notes extends React.Component {
   constructor(props) {
@@ -43,7 +43,6 @@ export class Notes extends React.Component {
   }
 
   render () {
-    const pinned = this.props.pinned
     const cookies = new Cookies();
 
     //console.log(  cookies.get('email'))
@@ -57,12 +56,9 @@ export class Notes extends React.Component {
               <CardBody>
                 <CardTitle style={{textAlign: 'left', fontSize: '1.2em'}}>{this.truncate(row.title,15)}
                 <span style={{float: 'right'}}>
-                {pinned ?
-                  (<Pin style={{color: '#8A2BE2'}}/>) :
-                  (<Pin/>)
-                }
+                <PinComponent pins={row.pins} id={row._id} pinned={this.props.pinned}/>
                 <HeartComponent likes={row.likes} id={row._id}/>
-                  <Share/>
+                  <ShareComponent contributors={row.contributors} id={row._id}/>
                 </span>
               </CardTitle>
               </CardBody>
@@ -112,20 +108,28 @@ export class RecommendNotes extends React.Component {
       <Slider {...settings}>
         {this.props.notes.map(row=>
           <div key={row._id}>
-            <a style={{ textDecoration: 'none', color:'inherit' }} href={"notes/"+row._id} to={"notes/"+row._id}>
+
               <Row>
                 <Col xs="9" sm="10">
                   <Card style={{borderStyle: "solid",borderWidth: "0.5px 4px 4px 0.5px"}}>
                     <CardBody>
-                      <CardTitle style={{textAlign: "left", fontSize: '1.2em'}}>{this.truncate(row.title,15)} <span style={{float: "right"}}><Pin/><Heart/><Share/></span></CardTitle>
+                      <CardTitle style={{textAlign: 'left', fontSize: '1.2em'}}>{this.truncate(row.title,15)}
+                      <span style={{float: 'right'}}>
+                      <PinComponent pins={row.pins} id={row._id} pinned={this.props.pinned}/>
+                      <HeartComponent likes={row.likes} id={row._id}/>
+                        <Share/>
+                      </span>
+                    </CardTitle>
                     </CardBody>
+                    <a style={{ textDecoration: 'none', color:'inherit' }} href={"notes/"+row._id} to={"notes/"+row._id}>
                     <CardBody>
                       <CardText>{this.truncate(row.content,40)}</CardText>
                     </CardBody>
+                    </a>
                   </Card>
                 </Col>
               </Row>
-            </a>
+
           </div>
         )}
       </Slider >
