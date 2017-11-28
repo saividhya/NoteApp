@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 import json
-import ast 
+import ast
 
 db = MongoEngine()
 
@@ -23,7 +23,7 @@ def recommendNotes():
     if 'user' not in session:
         abort(403)
     userEmail = session['user']['email']
-    pipeline = [{'$match':{"type" : {"$in" : ["pin","view","like"] } } }, {"$group" : { "_id" : {"email": "$user", "note": "$noteId"}, "count": { "$sum": 1 } } } ] 
+    pipeline = [{'$match':{"type" : {"$in" : ["pin","view","like"] } } }, {"$group" : { "_id" : {"email": "$user", "note": "$noteId"}, "count": { "$sum": 1 } } } ]
     result = list(Event.objects.aggregate(*pipeline))
     users = Event.objects.distinct("user")
     notes = Event.objects.distinct("noteId")
@@ -45,7 +45,7 @@ def recommendNotes():
                 notes.append(a)
         except:
             continue
-    return jsonify(notes)    
+    return jsonify(notes)
 
 
 def contentRecommendNotes():
@@ -60,12 +60,12 @@ def contentRecommendNotes():
     tfidf_matrix = tf.fit_transform(ds['content'])
     cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
     results = {}
-    
+
     for idx, row in ds.iterrows():
         similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
         similar_items = [(cosine_similarities[idx][i], ds['_id'][i]) for i in similar_indices]
         results[row['_id']] = similar_items[1:]
-    
+
     relevantNotes = []
     for i in recentNotes:
         recs = results[unicode(str(i.id), "utf-8")][:10]

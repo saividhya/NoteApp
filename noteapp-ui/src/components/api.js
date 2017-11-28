@@ -62,6 +62,30 @@ export function getNotes() {
 
 }
 
+export function getRecommendation() {
+  const url = `${BASE_URL}/recommend`;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+})
+
+}
+
+export function getContentRecommendation() {
+  const url = `${BASE_URL}/contentrecommend`;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+})
+
+}
+
 export function getTags() {
   const url = `${BASE_URL}/tags`;
   return fetch(url, {
@@ -133,6 +157,19 @@ export function postNote(payload) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify( payload )
+})
+
+}
+
+
+export function searchNotes(query) {
+  const url = `${BASE_URL}/search?q=`+query;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
 })
 
 }

@@ -62,7 +62,7 @@ export class Notes extends React.Component {
                 </span>
               </CardTitle>
               </CardBody>
-              <a style={{ textDecoration: 'none', color:'inherit' }} href={"notes/"+row._id} to={"notes/"+row._id}>
+              <a style={{ textDecoration: 'none', color:'inherit' }} href={"/notes/"+row._id} to={"/notes/"+row._id}>
               <CardBody>
                 <CardText>{this.truncate(row.content,60)}</CardText>
               </CardBody>
@@ -121,7 +121,7 @@ export class RecommendNotes extends React.Component {
                       </span>
                     </CardTitle>
                     </CardBody>
-                    <a style={{ textDecoration: 'none', color:'inherit' }} href={"notes/"+row._id} to={"notes/"+row._id}>
+                    <a style={{ textDecoration: 'none', color:'inherit' }} href={"/notes/"+row._id} to={"/notes/"+row._id}>
                     <CardBody>
                       <CardText>{this.truncate(row.content,40)}</CardText>
                     </CardBody>

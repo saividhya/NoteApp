@@ -27,5 +27,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "dev": "react-scripts build && nodemon server"
+  },
+  "devDependencies": {
+    "html-loader": "^0.5.1"
   }
 }

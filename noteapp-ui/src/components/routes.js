@@ -7,6 +7,8 @@ import Note from './note.js'
 import Login from './login.js'
 import Register from './register.js'
 import Create from './create.js'
+import Search from './search.js'
+import My from './my.js'
 import {
   BrowserRouter as Router,
   Route,
@@ -25,6 +27,8 @@ class Routes extends React.Component {
           <Route exact path="/login" component={Login}/>
           <Route exact path="/register" component={Register}/>
           <Route exact path="/create" component={Create}/>
+          <Route exact path="/search/:text" component={Search}/>
+          <Route exact path="/my" component={My}/>
       </div>
       </Router>
     )

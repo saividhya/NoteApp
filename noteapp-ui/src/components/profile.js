@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Container,Jumbotron} from 'reactstrap';
 import {Autocomplete} from './util.js'
-
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +17,7 @@ class Profile extends React.Component {
 
   render () {
     return(
+
       <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
             <Autocomplete tags={this.state.tags} onChange={this.handleTagChange}/>
       </Jumbotron>

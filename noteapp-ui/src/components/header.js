@@ -1,6 +1,7 @@
 import React from 'react';
 import { instanceOf } from 'prop-types';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Input } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler,
+  NavbarBrand, Nav, NavItem, NavLink, Input,Button } from 'reactstrap';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 import {logout} from './api.js'
 import { TextComponent } from './util';
@@ -14,11 +15,13 @@ class Header extends React.Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     const { cookies } = this.props;
     //console.log(cookies.get('session'))
     this.state = {
       collapsed: true,
-      id: cookies.get('email')
+      id: cookies.get('email'),
+      query:""
     };
   }
 
@@ -40,9 +43,19 @@ class Header extends React.Component {
        })
 
   }
+
+  handleChange(event) {
+    let stateValue={};
+    stateValue[event.target.id]=event.target.value;
+    console.log()
+    this.setState(stateValue);
+  }
+
   render() {
 
     //#8e36f4
+    let query=this.state.query
+    //console.log(query)
     return (
       <div>
         <Navbar style={{backgroundColor: '#8A2BE2'}} dark toggleable>
@@ -59,9 +72,19 @@ class Header extends React.Component {
             <NavItem>
               <NavLink href="/Profile">Profile</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink href="/My">My</NavLink>
+            </NavItem>
           </Nav>
-          <Input style={{border: 'none'}} placeholder="full text search query" value={this.state.query} id="search" onChange={this.handleChange}/>
-          </Collapse>
+          <Input style={{border: 'none'}}
+            placeholder="text search"
+            value={this.state.query} id="query" onChange={this.handleChange}/>
+          <a href={"/search/"+query} to={"/search/"+query}>
+            <Button style={{backgroundColor: '#5D6D7E'}}  type="submit"
+            value="Search" >
+            Search</Button></a>
+        </Collapse>
+
           {
             "undefined"  === typeof this.state.id?
                   <Nav className="ml-auto" navbar>

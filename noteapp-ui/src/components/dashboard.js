@@ -5,7 +5,8 @@ import {Notes} from './util.js'
 import Recommender from './recommender.js'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {getNotes,getTags,getNotesForTag} from './api.js'
+import {getNotes,getTags,getNotesForTag,
+  getContentRecommendation} from './api.js'
 
 class Category extends React.Component {
   constructor(props) {
@@ -113,7 +114,7 @@ class Dashboard extends React.Component {
           response.json().then(
             data => {
               this.setState({notes:data.myNotes})
-              this.setState({recommendNotes:data.myNotes})
+              //this.setState({recommendNotes:data.myNotes})
               this.setState({pinnedNotes:data.pinnedNotes})
               //console.log(data.myNotes);
 
@@ -122,6 +123,23 @@ class Dashboard extends React.Component {
       }).catch (function (error) {
           console.log('Request failed', error);
         })
+
+
+      getContentRecommendation().then( (response) =>
+      {
+          if(response.ok) {
+            response.json().then(
+              data => {
+                console.log(data)
+                this.setState({recommendNotes:data})
+
+                //console.log(data.myNotes);
+
+                })
+          }
+        }).catch (function (error) {
+            console.log('Request failed', error);
+          })
 
 
 
