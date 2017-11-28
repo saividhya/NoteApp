@@ -66,6 +66,8 @@ app.add_url_rule('/search', None, searchNotes, methods=["GET"])
 app.add_url_rule('/events', None, postEvent, methods=["POST"])
 app.add_url_rule('/events', None, getEvents, methods=["GET"])
 
+app.add_url_rule('/authors/<tag>', None, getAuthors, methods=["GET"])
+
 if __name__ == '__main__':
     app.debug = app.config['DEBUG']
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

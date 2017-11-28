@@ -67,8 +67,12 @@ def contentRecommendNotes():
         results[row['_id']] = similar_items[1:]
     
     relevantNotes = []
+    print results
     for i in recentNotes:
-        recs = results[unicode(str(i.id), "utf-8")][:10]
-        relevantNotes.append(recs)
+        try:
+            recs = results[unicode(str(i.id), "utf-8")][:10]
+            relevantNotes.append(recs)
+        except:
+            continue
 
     return jsonify(recentNotes)

@@ -129,3 +129,16 @@ def checkUsers(userList):
     if numOfUsers != len(userList):
         return False
     return True
+
+def getAuthors(tag):
+    p = [{'$match':{"tags":{"$in": [ tag ] } } }, {"$group":{"_id":{"author":"$author", "pins":"$pins"}, "viewscount":{"$sum":"$views"} } }, {"$project":{"viewscount":"$viewscount", "noofpins":{"$size":{"$ifNull":["$_id.pins", [] ] } } } }, {"$group":{"_id":{"author":"$_id.author"}, "views":{"$sum":"$viewscount"}, "pins":{"$sum":"$noofpins"} } }, {"$project":{"views" : "$views", "pins" : "$pins", "total" : { "$add" : [ "$views", "$pins" ] } } }, { "$sort"  : { "total" : -1 } } ]
+    result = list(Note.objects.aggregate(*p))
+    authors = []
+    totalcount = 0 
+    for i in result:
+        totalcount += i['total']
+    for i in result:
+        author = { "author" : i['_id']['author'] , "score" : round(float(float(i['total'])/totalcount)*100,2) }
+        authors.append(author)
+    return jsonify(authors)
+    
