@@ -87,7 +87,7 @@ export function getContentRecommendation() {
 }
 
 export function getTags() {
-  const url = `${BASE_URL}/tags`;
+  const url = `${BASE_URL}/tags?page=user`;
   return fetch(url, {
     credentials: 'include',
     method: 'GET',

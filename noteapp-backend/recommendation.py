@@ -42,7 +42,7 @@ def recommendNotes():
         try:
             a = Note.objects(id__=i,author__ne=userEmail,pins__nin=[userEmail],contributors__nin=[userEmail],access__="public")
             if len(a) > 0:
-                notes.append(a)
+                notes.append(a[0])
         except:
             continue
     return jsonify(notes)
@@ -55,6 +55,8 @@ def contentRecommendNotes():
     recentNotes = Note.objects(Q(author__ne=userEmail) & Q(contributors__nin=[userEmail]) & (Q(likes__in=[userEmail]) | Q(pins__in=[userEmail])) & Q(access__="public")).order_by("-modified_date").limit(10)
     notesToConsider = Note.objects(author__ne=userEmail,pins__nin=[userEmail],contributors__nin=[userEmail],access__="public").to_json()
     jsonnotesToConsider = json.loads(notesToConsider)
+    if jsonnotesToConsider is None or len(jsonnotesToConsider)<1:
+        return jsonify([])
     ds = pd.DataFrame(list(jsonnotesToConsider))
     tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 3), min_df=0, stop_words='english')
     tfidf_matrix = tf.fit_transform(ds['content'])

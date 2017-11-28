@@ -49,6 +49,7 @@ export class Notes extends React.Component {
     return (
       <div>
         <Row>
+        {console.log(this.props.notes)}
         {this.props.notes.map(row=>
           <Col key={row._id} xs="6" sm="4">
 

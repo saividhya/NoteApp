@@ -2,7 +2,7 @@ from flask import Flask, request, session, abort, jsonify
 from models import *
 
 def getTags():
-    page = "user"
+    page = "general"
     if request.args.get('page') is not None:
         if request.args.get('page').lower() == "general": page = "general"
     tag_freqs = None
