@@ -80,7 +80,7 @@ class Header extends React.Component {
             placeholder="text search"
             value={this.state.query} id="query" onChange={this.handleChange}/>
           <a href={"/search/"+query} to={"/search/"+query}>
-            <Button style={{backgroundColor: '#5D6D7E'}}  type="submit"
+            <Button   type="submit"
             value="Search" >
             Search</Button></a>
         </Collapse>

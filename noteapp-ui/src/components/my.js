@@ -1,11 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import CircularProgressbar from 'react-circular-progressbar';
 import '../static/css/circularprogress.css'
 import { Row,Jumbotron,Col,FormGroup,Label,Input} from 'reactstrap';
 import {getTags} from './api.js'
 import Cookies from 'universal-cookie';
 import {getAuthors} from './api.js'
+import PropTypes from 'prop-types'
 
 export class SelectComponent extends React.Component {
   constructor(props) {
@@ -18,15 +18,17 @@ export class SelectComponent extends React.Component {
   }
   render () {
     return(
-      <FormGroup row>
-        <Label for={this.props.id} sm={2}>{this.props.label}</Label>
-        <Col sm={10}>
+
+      <FormGroup>
+        <h2>Queries ? Check with the best people</h2>
+        <Label for={this.props.id}>{this.props.label}</Label>
+
           <Input type="select" name={this.props.id} id={this.props.id} value={this.props.value} onChange={this.handleChange}>
             <option id="" value=""></option>
             {this.props.options.map(option =>
               <option key={option.name} id={option.name} value={option.name}>{option.name}</option>)}
           </Input>
-        </Col>
+
       </FormGroup>
     )
 
@@ -50,7 +52,8 @@ class My extends React.Component {
     let stateValue={};
     stateValue[id]=value;
     this.setState(stateValue);
-    let tag=this.state.tag
+    let tag=value
+    console.log(tag)
     getAuthors(tag).then( (response) =>
     {
         if(response.ok) {

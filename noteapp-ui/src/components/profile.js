@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Container,Jumbotron,Button,Col,Row} from 'reactstrap';
 import {Autocomplete} from './util.js'
-import {getTags} from './api.js'
+import {getTags,updateUserByEmail} from './api.js'
 import Cookies from 'universal-cookie';
 
 class Profile extends React.Component {
@@ -11,6 +11,7 @@ class Profile extends React.Component {
       tags: []
     }
     this.handleTagChange = this.handleTagChange.bind(this);
+    this.handleClick=this.handleClick.bind(this);
   }
 
   handleTagChange(tags) {
@@ -38,8 +39,23 @@ class Profile extends React.Component {
   }
 
   handleClick() {
+    const cookies = new Cookies();
+    let email=cookies.get("email")
+    console.log(this.state.tags)
+    let payload={
+      "interests":this.state.tags
+    }
+    updateUserByEmail(email,payload).then( (response) => {
+      if(response.ok) {
+        window.location.reload()
+      }
+    }).catch (function (error) {
+        console.log('Request failed', error);
+      })
 
+    //console.log(this.state.text)
   }
+
 
   render () {
     const cookies = new Cookies();
@@ -47,11 +63,12 @@ class Profile extends React.Component {
       return(
 
         <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
+          <h2>Hello {cookies.get("email")}!</h2>
           <Row>
             <Col></Col>
             <Col></Col>
             <Col>
-            <p className="text-right"><Button style={{backgroundColor: '#8A2BE2'}}
+            <p className="text-right"><Button
               type="submit" value="save" onClick={this.handleClick}>Save</Button></p>
           </Col>
           </Row>

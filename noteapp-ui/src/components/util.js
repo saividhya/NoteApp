@@ -12,7 +12,8 @@ import Heart from 'react-icons/lib/go/heart';
 import Share from 'react-icons/lib/md/share';
 import { instanceOf } from 'prop-types';
 import Cookies from 'universal-cookie';
-import {HeartComponent,PinComponent,ShareComponent,TrashComponent} from './icons.js'
+import {HeartComponent,PinComponent,ShareComponent
+  ,TrashComponent,AccessIcon} from './icons.js'
 
 export class Notes extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ export class Notes extends React.Component {
     return (
       <div>
         <Row>
-        {console.log(this.props.notes)}
+      
         {this.props.notes.map(row=>
           <Col key={row._id} xs="6" sm="4">
 
@@ -61,6 +62,7 @@ export class Notes extends React.Component {
                 <HeartComponent likes={row.likes} id={row._id}/>
                   <ShareComponent contributors={row.contributors} id={row._id}/>
                   <TrashComponent id={row._id}/>
+                  <AccessIcon icon={row.access}/>
                 </span>
               </CardTitle>
               </CardBody>

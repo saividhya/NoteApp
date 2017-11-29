@@ -94,7 +94,7 @@ class Login extends React.Component {
               <Col/>
               <Col/>
               <Col>
-                <p className="text-right"><Button style={{backgroundColor: '#8A2BE2'}} type="submit" value="Login">Login</Button></p>
+                <p className="text-right"><Button type="submit" value="Login">Login</Button></p>
               </Col>
             </Row>
           </Form>

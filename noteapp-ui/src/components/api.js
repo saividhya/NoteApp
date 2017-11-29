@@ -199,3 +199,17 @@ export function getAuthors(tagName) {
 })
 
 }
+
+
+export function updateUserByEmail(email,payload) {
+  const url = `${BASE_URL}/users/`+email;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( payload )
+})
+
+}

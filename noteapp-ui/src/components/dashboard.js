@@ -178,7 +178,7 @@ class Dashboard extends React.Component {
                 All Yours
               </span>
               <span style={{float: 'right'}}>
-                <a href="/create" to="/create"><Button style={{backgroundColor: '#8A2BE2'}}
+                <a href="/create" to="/create"><Button 
                 type="submit" value="Create">Create</Button></a>
               </span>
             </div>

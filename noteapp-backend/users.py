@@ -36,7 +36,9 @@ def putUser(userEmail):
         abort(400)
     user = User.objects(email=userEmail)
     if len(user) == 1:
+        user = user[0]
         user.interests = request.json['interests']
+        print user.interests
         user.save()
         return jsonify(user)
     else:

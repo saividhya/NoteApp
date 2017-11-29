@@ -2,6 +2,9 @@ import Heart from 'react-icons/lib/go/heart';
 import Share from 'react-icons/lib/md/share';
 import Pin from 'react-icons/lib/go/pin';
 import Trash from 'react-icons/lib/go/trashcan';
+import Public from 'react-icons/lib/md/public'
+import Collab from 'react-icons/lib/md/people-outline'
+import Priv from 'react-icons/lib/md/perm-identity'
 import Cookies from 'universal-cookie';
 import React  from 'react'
 import {updateNoteById,deleteNoteById} from './api.js'
@@ -282,7 +285,7 @@ export class ShareComponent extends React.Component {
                 {
                   "undefined"  !== typeof this.props.contributors?
                   (this.props.contributors.filter(e=> e!==cookies.get("email")).map(row=>
-                  <span>{row}&nbsp;<a name={row}
+                  <span key={row}>{row}&nbsp;<a name={row}
                     style={{color: '#007bff', cursor:'pointer'}}
                     onClick={this.handleClick}>x</a><br/></span>)):""
                 }
@@ -295,4 +298,34 @@ export class ShareComponent extends React.Component {
       </span>
     );
   }
+}
+
+
+
+
+export class AccessIcon extends React.Component {
+  constructor(props) {
+    super(props);
+
+    }
+  render () {
+    if(this.props.icon==="public")
+     {
+
+         return <Public/>
+      }
+
+     if(this.props.icon==="private")
+      {
+          return <Priv/>
+
+      }
+
+      if(this.props.icon==="collaborate")
+       {
+
+           return <Collab/>
+       }
+    }
+
 }

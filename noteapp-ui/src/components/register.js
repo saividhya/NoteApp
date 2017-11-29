@@ -87,7 +87,7 @@ export class Register extends React.Component {
       })
 
 
-  
+
 
     }
 
@@ -112,7 +112,7 @@ export class Register extends React.Component {
                 <Col/>
                 <Col/>
                 <Col>
-                  <p className="text-right"><Button style={{backgroundColor: '#8A2BE2'}}  type="submit" value="Register">Register</Button></p>
+                  <p className="text-right"><Button type="submit" value="Register">Register</Button></p>
                 </Col>
               </Row>
             </Jumbotron>

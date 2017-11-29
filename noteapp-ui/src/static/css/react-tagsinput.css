@@ -7,13 +7,13 @@
 }
 
 .react-tagsinput--focused {
-  border-color: #8A2BE2;
+  border-color: #868e96;
 }
 
 .react-tagsinput-tag {
-  background-color: #8A2BE2;
+  background-color: #868e96;
   border-radius: 2px;
-  border: 1px solid #8A2BE2;
+  border: 1px solid #868e96;
   color: #FFFFFF;
   display: inline-block;
   font-family: sans-serif;
