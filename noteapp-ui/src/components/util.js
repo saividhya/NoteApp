@@ -54,8 +54,9 @@ export class Notes extends React.Component {
         {this.props.notes.map(row=>
           <Col key={row._id} xs="6" sm="4">
 
-            <Card style={{borderStyle: 'solid', borderWidth: '0.5px 4px 4px 0.5px'}}>
-              <CardBody>
+            { row.tags.indexOf('Cheatsheet') > -1 ?
+              ( <Card style={{borderStyle: 'solid', background:'#ffc107',  borderWidth: '0.5px 4px 4px 0.5px'}}> 
+                  <CardBody>
                 <CardTitle style={{textAlign: 'left', fontSize: '1.2em'}}>{this.truncate(row.title,15)}
                 <span style={{float: 'right'}}>
                 <PinComponent pins={row.pins} id={row._id} pinned={this.props.pinned}/>
@@ -72,6 +73,34 @@ export class Notes extends React.Component {
               </CardBody>
               </a>
             </Card>
+
+
+
+                ) :
+              ( <Card style={{borderStyle: 'solid', background: 'rgb(203, 202, 206)' ,borderWidth: '0.5px 4px 4px 0.5px'}}>
+                    <CardBody>
+                <CardTitle style={{textAlign: 'left', fontSize: '1.2em'}}>{this.truncate(row.title,15)}
+                <span style={{float: 'right'}}>
+                <PinComponent pins={row.pins} id={row._id} pinned={this.props.pinned}/>
+                <HeartComponent likes={row.likes} id={row._id}/>
+                  <ShareComponent contributors={row.contributors} id={row._id}/>
+                  <TrashComponent id={row._id}/>
+                  <AccessIcon icon={row.access}/>
+                </span>
+              </CardTitle>
+              </CardBody>
+              <a style={{ textDecoration: 'none', color:'inherit' }} href={"/notes/"+row._id} to={"/notes/"+row._id}>
+              <CardBody>
+                <CardText>{this.truncate(row.content,60)}</CardText>
+              </CardBody>
+              </a>
+            </Card>
+
+
+
+               )
+            }
+              
 
             <p></p>
           </Col>
@@ -115,7 +144,8 @@ export class RecommendNotes extends React.Component {
 
               <Row>
                 <Col xs="9" sm="10">
-                  <Card style={{borderStyle: "solid",borderWidth: "0.5px 4px 4px 0.5px"}}>
+                { row.tags.indexOf('Cheatsheet') > -1 ?
+                 ( <Card style={{borderStyle: "solid",background:'#ffc107',borderWidth: "0.5px 4px 4px 0.5px"}}>
                     <CardBody>
                       <CardTitle style={{textAlign: 'left', fontSize: '1.2em'}}>{this.truncate(row.title,15)}
                       <span style={{float: 'right'}}>
@@ -131,6 +161,26 @@ export class RecommendNotes extends React.Component {
                     </CardBody>
                     </a>
                   </Card>
+                  ) :
+              (
+                <Card style={{borderStyle: "solid",background: 'rgb(203, 202, 206)' ,borderWidth: "0.5px 4px 4px 0.5px"}}>
+                    <CardBody>
+                      <CardTitle style={{textAlign: 'left', fontSize: '1.2em'}}>{this.truncate(row.title,15)}
+                      <span style={{float: 'right'}}>
+                      <PinComponent pins={row.pins} id={row._id} pinned={this.props.pinned}/>
+                      <HeartComponent likes={row.likes} id={row._id}/>
+                        <Share/>
+                      </span>
+                    </CardTitle>
+                    </CardBody>
+                    <a style={{ textDecoration: 'none', color:'inherit' }} href={"/notes/"+row._id} to={"/notes/"+row._id}>
+                    <CardBody>
+                      <CardText>{this.truncate(row.content,40)}</CardText>
+                    </CardBody>
+                    </a>
+                  </Card> 
+               )
+            }
                 </Col>
               </Row>
 

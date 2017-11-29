@@ -10,6 +10,7 @@ import TreeMap from "react-d3-treemap";
 // Include its styles in you build process as well
 import "react-d3-treemap/dist/react.d3.treemap.css";
 import treeMap from './data/treemap.json'
+import '../static/css/test.css'
 export class SelectComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -98,7 +99,7 @@ class My extends React.Component {
               response.json().then(
                 data => {
                   console.log(data)
-                  this.setState({treeMapData:data})
+                  //this.setState({treeMapData:data})
                   // this.setState({recommendNotes:data.myNotes})
                   //console.log(data.myNotes);
 
@@ -107,12 +108,16 @@ class My extends React.Component {
           }).catch (function (error) {
               console.log('Request failed', error);
             })
+            console.log(treeMap)
+       this.setState({treeMapData:treeMap})
 
 
   }
 
   render () {
     let data=this.state.data
+    let tree=this.state.treeMapData
+    console.log(tree)
     const cookies = new Cookies();
     if (cookies.get("email")) {
       return (
@@ -120,8 +125,9 @@ class My extends React.Component {
           <TreeMap
             height={500}
             width={800}
-            data={this.state.treeMapData}
+            data={tree}
             valueUnit={"MB"}
+            style={{color: 'blue'}}
           />
         <br/>
         <SelectComponent id="tag" value={this.state.tag} label="Tag"
