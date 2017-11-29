@@ -28,7 +28,7 @@ class Routes extends React.Component {
           <Route exact path="/register" component={Register}/>
           <Route exact path="/create" component={Create}/>
           <Route exact path="/search/:text" component={Search}/>
-          <Route exact path="/my" component={My}/>
+          <Route exact path="/Stats" component={My}/>
       </div>
       </Router>
     )

@@ -136,6 +136,20 @@ export function updateNoteById(noteId,payload) {
 
 }
 
+
+export function deleteNoteById(noteId) {
+  const url = `${BASE_URL}/notes/`+noteId;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+
+})
+
+}
+
 export function getAllTags() {
   const url = `${BASE_URL}/tags?page=general`;
   return fetch(url, {
@@ -164,6 +178,18 @@ export function postNote(payload) {
 
 export function searchNotes(query) {
   const url = `${BASE_URL}/search?q=`+query;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+})
+
+}
+
+export function getAuthors(tagName) {
+  const url = `${BASE_URL}/authors/`+tagName;
   return fetch(url, {
     credentials: 'include',
     method: 'GET',

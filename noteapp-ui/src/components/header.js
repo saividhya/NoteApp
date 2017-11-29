@@ -58,7 +58,7 @@ class Header extends React.Component {
     //console.log(query)
     return (
       <div>
-        <Navbar style={{backgroundColor: '#8A2BE2'}} dark toggleable>
+          <Navbar color="dark" dark expand>
           <NavbarBrand href="/" className="mr-auto">NoteApp</NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
           <Collapse isOpen={!this.state.collapsed} navbar>
@@ -73,7 +73,7 @@ class Header extends React.Component {
               <NavLink href="/Profile">Profile</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/My">My</NavLink>
+              <NavLink href="/Stats">Stats</NavLink>
             </NavItem>
           </Nav>
           <Input style={{border: 'none'}}

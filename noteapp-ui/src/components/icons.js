@@ -1,9 +1,10 @@
 import Heart from 'react-icons/lib/go/heart';
 import Share from 'react-icons/lib/md/share';
 import Pin from 'react-icons/lib/go/pin';
+import Trash from 'react-icons/lib/go/trashcan';
 import Cookies from 'universal-cookie';
 import React  from 'react'
-import {updateNoteById} from './api.js'
+import {updateNoteById,deleteNoteById} from './api.js'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {TextComponent} from './util.js'
 
@@ -136,6 +137,39 @@ export class PinComponent extends React.Component {
 
   }
 }
+
+
+export class TrashComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handledelete=this.handledelete.bind(this);
+  }
+
+  handledelete(event) {
+    console.log("delete")
+    console.log(this.props.id)
+    let noteId=this.props.id
+    deleteNoteById(noteId).then( (response) => {
+      if(response.ok) {
+        window.location.reload()
+      }
+    }).catch (function (error) {
+        console.log('Request failed', error);
+      })
+  }
+
+
+  render () {
+    return(
+      <span>
+        <Trash onClick={this.handledelete}/>
+      </span>
+
+    )
+
+  }
+}
+
 
 
 

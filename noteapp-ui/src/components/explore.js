@@ -3,6 +3,7 @@ import { Row,Col,Jumbotron } from 'reactstrap';
 import {Notes} from './util.js'
 import data from './data/dashboard.json'
 import {getRecommendation} from './api.js'
+import Cookies from 'universal-cookie';
 
 class Explore extends React.Component {
 
@@ -39,19 +40,26 @@ class Explore extends React.Component {
 
   render () {
     let notes=this.state.notes
-    return(
-      <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
-        <h2>Explore</h2>
-        <br/>
-      <Row>
-        <Col>
-          <Notes notes={notes}/>
-        </Col>
-      </Row>
+    const cookies = new Cookies();
+    if (cookies.get("email")) {
+      return(
+        <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
+          <h2>Explore</h2>
+          <br/>
+        <Row>
+          <Col>
+            <Notes notes={notes}/>
+          </Col>
+        </Row>
 
 
-    </Jumbotron >
-    )
+      </Jumbotron >
+      )
+    }
+    else {
+      window.location="/login"
+    }
+
   }
 }
 

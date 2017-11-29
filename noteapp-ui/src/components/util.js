@@ -12,7 +12,7 @@ import Heart from 'react-icons/lib/go/heart';
 import Share from 'react-icons/lib/md/share';
 import { instanceOf } from 'prop-types';
 import Cookies from 'universal-cookie';
-import {HeartComponent,PinComponent,ShareComponent} from './icons.js'
+import {HeartComponent,PinComponent,ShareComponent,TrashComponent} from './icons.js'
 
 export class Notes extends React.Component {
   constructor(props) {
@@ -60,6 +60,7 @@ export class Notes extends React.Component {
                 <PinComponent pins={row.pins} id={row._id} pinned={this.props.pinned}/>
                 <HeartComponent likes={row.likes} id={row._id}/>
                   <ShareComponent contributors={row.contributors} id={row._id}/>
+                  <TrashComponent id={row._id}/>
                 </span>
               </CardTitle>
               </CardBody>

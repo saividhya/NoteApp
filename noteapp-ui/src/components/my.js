@@ -4,6 +4,8 @@ import CircularProgressbar from 'react-circular-progressbar';
 import '../static/css/circularprogress.css'
 import { Row,Jumbotron,Col,FormGroup,Label,Input} from 'reactstrap';
 import {getTags} from './api.js'
+import Cookies from 'universal-cookie';
+import {getAuthors} from './api.js'
 
 export class SelectComponent extends React.Component {
   constructor(props) {
@@ -38,20 +40,6 @@ class My extends React.Component {
       tag:"",
       tagItems:[],
       data:[
-        {
-          "author":"kili",
-          "score":70.
-        },
-        {
-          "author":"Vidhya",
-          "score":20
-        },
-        {
-          "author":"Kasi",
-          "score":10
-        },
-
-
 
       ],
     }
@@ -62,6 +50,22 @@ class My extends React.Component {
     let stateValue={};
     stateValue[id]=value;
     this.setState(stateValue);
+    let tag=this.state.tag
+    getAuthors(tag).then( (response) =>
+    {
+        if(response.ok) {
+          response.json().then(
+            x => {
+              console.log(x)
+              this.setState({data:x})
+              // this.setState({recommendNotes:data.myNotes})
+              //console.log(data.myNotes);
+
+              })
+        }
+      }).catch (function (error) {
+          console.log('Request failed', error);
+        })
   }
 
   componentWillMount() {
@@ -84,29 +88,37 @@ class My extends React.Component {
 
   render () {
     let data=this.state.data
-    return (
-      <Jumbotron  style={{backgroundColor: '#FFFFFF'}}>
-      <SelectComponent id="tag" value={this.state.tag} label="Tag"
-        options={this.state.tagItems} onChange={this.handleChange}/>
-        <br/>
-        <Row>
+    const cookies = new Cookies();
+    if (cookies.get("email")) {
+      return (
+        <Jumbotron  style={{backgroundColor: '#FFFFFF'}}>
+        <SelectComponent id="tag" value={this.state.tag} label="Tag"
+          options={this.state.tagItems} onChange={this.handleChange}/>
+          <br/>
+          <Row>
 
-          {
-            data.map(x =>
-              <Col key={x.author} xs="6" sm="4">
-                <div style={{height:"160px", width:"160px"}}>
-                  <CircularProgressbar percentage={x.score} textForPercentage={
-                    (pct) => `${x.author}`
-                } />
-                </div>
-              </Col>
-              )
-          }
+            {
+              data.map(x =>
+                <Col key={x.author} xs="6" sm="4">
+                  <div style={{height:"160px", width:"160px"}}>
+                    <CircularProgressbar percentage={x.score} textForPercentage={
+                      (pct) => `${pct}`
+                  } />
+                <h6>{x.author}</h6>
+
+                  </div>
+                </Col>
+                )
+            }
 
 
-        </Row>
-      </Jumbotron>
-    )
+          </Row>
+        </Jumbotron>
+      )
+    }
+      else {
+        window.location="/login"
+      }
   }
 }
 

@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {getNotes,getTags,getNotesForTag,
   getContentRecommendation} from './api.js'
+import Cookies from 'universal-cookie';
 
 class Category extends React.Component {
   constructor(props) {
@@ -164,43 +165,50 @@ class Dashboard extends React.Component {
 
 
   render () {
+    const cookies = new Cookies();
+    if (cookies.get("email")) {
+      return(
+        <div>
+          <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
+            <Recommender notes={this.state.recommendNotes}/>
+          </Jumbotron >
+          <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
+            <div>
+              <span style={{fontSize: '1.7em'}}>
+                All Yours
+              </span>
+              <span style={{float: 'right'}}>
+                <a href="/create" to="/create"><Button style={{backgroundColor: '#8A2BE2'}}
+                type="submit" value="Create">Create</Button></a>
+              </span>
+            </div>
 
-    return(
-      <div>
-        <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
-          <Recommender notes={this.state.recommendNotes}/>
-        </Jumbotron >
-        <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
-          <div>
-            <span style={{fontSize: '1.7em'}}>
-              All Yours
-            </span>
-            <span style={{float: 'right'}}>
-              <a href="/create" to="/create"><Button style={{backgroundColor: '#8A2BE2'}}
-              type="submit" value="Create">Create</Button></a>
-            </span>
-          </div>
+            <br/>
+            <Row>
+              <Col xs="3">
+                <Category category={this.state.category} onClick={this.handleClick}/>
+              </Col>
+              <Col>
 
-          <br/>
-          <Row>
-            <Col xs="3">
-              <Category category={this.state.category} onClick={this.handleClick}/>
-            </Col>
-            <Col>
-
-                <Label style={{textAlign: 'center'}} for="pinned" sm={12}>Your Pinned Notes</Label>
-                <Notes id="pinned" pinned={true} notes={this.state.pinnedNotes}/>
+                  <Label style={{textAlign: 'center'}} for="pinned" sm={12}>Your Pinned Notes</Label>
+                  <Notes id="pinned" pinned={true} notes={this.state.pinnedNotes}/>
 
 
-                <Label style={{textAlign: 'center'}} for={this.props.id} sm={12}>Your Notes</Label>
-                <Notes notes={this.state.notes}/>
+                  <Label style={{textAlign: 'center'}} for={this.props.id} sm={12}>Your Notes</Label>
+                  <Notes notes={this.state.notes}/>
 
-            </Col>
-          </Row>
-        </Jumbotron >
-      </div>
+              </Col>
+            </Row>
+          </Jumbotron >
+        </div>
+        )
+    }
+    else {
+      window.location="/login"
+    }
 
-    )
+
+
   }
 }
 
