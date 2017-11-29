@@ -12,6 +12,7 @@
     "react-autosuggest": "^9.3.2",
     "react-circular-progressbar": "^0.5.0",
     "react-cookie": "^2.1.2",
+    "react-d3-treemap": "^1.0.11",
     "react-dom": "^16.1.1",
     "react-icons": "^2.2.7",
     "react-ionicons": "^2.0.3",

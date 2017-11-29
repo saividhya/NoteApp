@@ -108,10 +108,10 @@ class Note extends React.Component {
 
             <Col>
               <p className="text-right"><Button
-              value="Cancel" href="/" style={{backgroundColor: '#8A2BE2'}}>Cancel</Button>
+              value="Cancel" href="/" >Cancel</Button>
             &nbsp;&nbsp;
               <Button
-              type="submit" value="Submit" style={{backgroundColor: '#8A2BE2'}}>Save</Button></p>
+              type="submit" value="Submit">Save</Button></p>
             </Col>
             </Col>
           </Row>
@@ -122,7 +122,7 @@ class Note extends React.Component {
             options={this.state.accessItems} onChange={this.handleChange}/>
           <Label for="tags" sm={2}>Tags</Label>
           <Autocomplete id="tags" tags={this.state.tags} onChange={this.handleTagChange}/>
-          
+
           <Label for="content" sm={2}>Content</Label>
           <ReactQuill id="content" value={this.state.text}
                     onChange={this.handleTextChange}>

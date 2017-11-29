@@ -213,3 +213,15 @@ export function updateUserByEmail(email,payload) {
 })
 
 }
+
+export function getTreeMap() {
+  const url = `${BASE_URL}/treemap`;
+  return fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+})
+
+}

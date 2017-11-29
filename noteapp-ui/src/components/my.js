@@ -2,11 +2,14 @@ import React from 'react'
 import CircularProgressbar from 'react-circular-progressbar';
 import '../static/css/circularprogress.css'
 import { Row,Jumbotron,Col,FormGroup,Label,Input} from 'reactstrap';
-import {getTags} from './api.js'
+import {getTags,getTreeMap} from './api.js'
 import Cookies from 'universal-cookie';
 import {getAuthors} from './api.js'
 import PropTypes from 'prop-types'
-
+import TreeMap from "react-d3-treemap";
+// Include its styles in you build process as well
+import "react-d3-treemap/dist/react.d3.treemap.css";
+import treeMap from './data/treemap.json'
 export class SelectComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -44,6 +47,7 @@ class My extends React.Component {
       data:[
 
       ],
+      treeMapData:{},
     }
       this.handleChange = this.handleChange.bind(this)
   }
@@ -87,6 +91,24 @@ class My extends React.Component {
       }).catch (function (error) {
           console.log('Request failed', error);
         })
+
+        getTreeMap().then( (response) =>
+        {
+            if(response.ok) {
+              response.json().then(
+                data => {
+                  console.log(data)
+                  this.setState({treeMapData:data})
+                  // this.setState({recommendNotes:data.myNotes})
+                  //console.log(data.myNotes);
+
+                  })
+            }
+          }).catch (function (error) {
+              console.log('Request failed', error);
+            })
+
+
   }
 
   render () {
@@ -95,6 +117,13 @@ class My extends React.Component {
     if (cookies.get("email")) {
       return (
         <Jumbotron  style={{backgroundColor: '#FFFFFF'}}>
+          <TreeMap
+            height={500}
+            width={800}
+            data={this.state.treeMapData}
+            valueUnit={"MB"}
+          />
+        <br/>
         <SelectComponent id="tag" value={this.state.tag} label="Tag"
           options={this.state.tagItems} onChange={this.handleChange}/>
           <br/>
@@ -116,6 +145,8 @@ class My extends React.Component {
 
 
           </Row>
+          <br/>
+
         </Jumbotron>
       )
     }
