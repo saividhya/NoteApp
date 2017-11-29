@@ -3,6 +3,9 @@ import uuid
 from models import *
 from datetime import datetime
 from event import generateEvent
+import csv
+import bson
+import re
 
 def postNote():
     if 'user' not in session:
@@ -132,7 +135,7 @@ def checkUsers(userList):
 
 def getAuthors(tag):
     p = [{'$match':{"tags":{"$in": [ tag ] } } }, {"$group":{"_id":{"author":"$author", "pins":"$pins"}, "viewscount":{"$sum":"$views"} } }, {"$project":{"viewscount":"$viewscount", "noofpins":{"$size":{"$ifNull":["$_id.pins", [] ] } } } }, {"$group":{"_id":{"author":"$_id.author"}, "views":{"$sum":"$viewscount"}, "pins":{"$sum":"$noofpins"} } }, {"$project":{"views" : "$views", "pins" : "$pins", "total" : { "$add" : [ "$views", "$pins" ] } } }, { "$sort"  : { "total" : -1 } } ]
-    result = list(Note.objects.aggregate(*p))
+    result = list(Note.objects.aggregate(*p))[1:3]
     authors = []
     totalcount = 0 
     for i in result:

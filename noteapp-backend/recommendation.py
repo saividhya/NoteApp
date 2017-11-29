@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 import json
 import ast
+import re
 
 db = MongoEngine()
 
@@ -53,7 +54,7 @@ def contentRecommendNotes():
         abort(403)
     userEmail = session['user']['email']
     recentNotes = Note.objects(Q(author__ne=userEmail) & Q(contributors__nin=[userEmail]) & (Q(likes__in=[userEmail]) | Q(pins__in=[userEmail])) & Q(access__="public")).order_by("-modified_date").limit(10)
-    notesToConsider = Note.objects(author__ne=userEmail,pins__nin=[userEmail],contributors__nin=[userEmail],access__="public").to_json()
+    notesToConsider = Note.objects(author__ne=userEmail,access__="public").to_json()
     jsonnotesToConsider = json.loads(notesToConsider)
     if jsonnotesToConsider is None or len(jsonnotesToConsider)<1:
         return jsonify([])
@@ -67,14 +68,15 @@ def contentRecommendNotes():
         similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
         similar_items = [(cosine_similarities[idx][i], ds['_id'][i]) for i in similar_indices]
         results[row['_id']] = similar_items[1:]
-
+    
     relevantNotes = []
-    print results
+    r = results.keys()
     for i in recentNotes:
         try:
-            recs = results[unicode(str(i.id), "utf-8")][:10]
-            relevantNotes.append(recs)
+            recs = results[unicode(str(i.id), "utf-8")][:5]
+            for j in recs:
+                n = Note.objects(id__=j[1])
+                relevantNotes.append(n[0])
         except:
             continue
-
-    return jsonify(recentNotes)
+    return jsonify(relevantNotes[1:10])
