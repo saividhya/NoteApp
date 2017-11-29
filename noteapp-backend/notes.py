@@ -134,6 +134,9 @@ def checkUsers(userList):
     return True
 
 def getAuthors(tag):
+    if 'user' not in session:
+        abort(403)
+    userEmail = session['user']['email']
     p = [{'$match':{"tags":{"$in": [ tag ] } } }, {"$group":{"_id":{"author":"$author", "pins":"$pins"}, "viewscount":{"$sum":"$views"} } }, {"$project":{"viewscount":"$viewscount", "noofpins":{"$size":{"$ifNull":["$_id.pins", [] ] } } } }, {"$group":{"_id":{"author":"$_id.author"}, "views":{"$sum":"$viewscount"}, "pins":{"$sum":"$noofpins"} } }, {"$project":{"views" : "$views", "pins" : "$pins", "total" : { "$add" : [ "$views", "$pins" ] } } }, { "$sort"  : { "total" : -1 } } ]
     result = list(Note.objects.aggregate(*p))[1:3]
     authors = []
@@ -144,4 +147,29 @@ def getAuthors(tag):
         author = { "author" : i['_id']['author'] , "score" : round(float(float(i['total'])/totalcount)*100,2) }
         authors.append(author)
     return jsonify(authors)
+
+
+def getTreeMap():
+    if 'user' not in session:
+        abort(403)
+    userEmail = session['user']['email']
+    
+    data = {"name" : "Popular Notes","children" : [ ] }
+
+    p=[{'$match': {"tags": {"$in": ["HTML"] }, "tags": {"$in": ["Cheatsheet"] }, "author": {"$nin": [userEmail] }, "contributors": {"$nin": [userEmail] }, "pins": {"$nin": [userEmail] }, "pins": {"$exists": "true", "$not": {"$size": 0 } } } }, {"$group": {"_id": {"id": "$_id", "title" : "$title", "content" : "$content", "likes" : "$likes"}, "count": {"$sum": "$views"} } }, {"$sort"  : { "count" : -1 } }]
+    Cheatsheets = list(Note.objects.aggregate(*p))
+    
+    p=[{'$match': {"tags": {"$in": ["HTML"] }, "tags": {"$nin": ["Cheatsheet"] }, "author": {"$nin": [userEmail] }, "contributors": {"$nin": [userEmail] }, "pins": {"$nin": [userEmail] }, "pins": {"$exists": "true", "$not": {"$size": 0 } } } }, {"$group": {"_id": {"id": "$_id", "title" : "$title", "content" : "$content", "likes" : "$likes"}, "count": {"$sum": "$views"} } }, {"$sort"  : { "count" : -1 } }]
+    notes = list(Note.objects.aggregate(*p))
+
+    data["children"]= [ {"name": "Cheatsheets", "children" : []}, {"name": "Notes", "children" : []} ]
+    
+
+    for i in Cheatsheets:
+        data["children"][0]["children"].append({"name" : i["_id"]["title"] , "value" : i["count"] })
+
+    for i in notes:
+        data["children"][1]["children"].append({"name" : i["_id"]["title"] , "value" : i["count"] })
+    
+    return jsonify(data)
     

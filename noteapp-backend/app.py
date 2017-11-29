@@ -66,7 +66,9 @@ app.add_url_rule('/search', None, searchNotes, methods=["GET"])
 app.add_url_rule('/events', None, postEvent, methods=["POST"])
 app.add_url_rule('/events', None, getEvents, methods=["GET"])
 
+### Visualization endpoints
 app.add_url_rule('/authors/<tag>', None, getAuthors, methods=["GET"])
+app.add_url_rule('/treemap/', None, getTreeMap, methods=["GET"])
 
 if __name__ == '__main__':
     app.debug = app.config['DEBUG']
