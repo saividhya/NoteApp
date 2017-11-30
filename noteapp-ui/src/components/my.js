@@ -145,37 +145,46 @@ class My extends React.Component {
       if(Object.keys(treeData).length !== 0) {
         return (
           <Jumbotron  style={{backgroundColor: '#FFFFFF'}}>
-            {console.log(treeData)}
+            <SelectComponent id="tag" value={this.state.tag} label="Tag"
+              options={this.state.tagItems} onChange={this.handleChange}/>
+              <br/>
+              <Row>
+
+                {
+                  data.map(x =>
+                    <Col key={x.author} xs="6" sm="4">
+                      <div style={{height:"160px", width:"160px"}}>
+                        <CircularProgressbar percentage={x.score} textForPercentage={
+                          (pct) => `${pct}`
+                      } />
+                    <h6>{x.author}</h6>
+
+                      </div>
+                    </Col>
+                    )
+                }
+
+
+              </Row>
+              <br/>
+
+                <br/>
+                  <br/>
+                    <br/>
+                    
             <TreeMapComponent data={this.state.treeMapData}/>
           <br/>
-          <SelectComponent id="tag" value={this.state.tag} label="Tag"
-            options={this.state.tagItems} onChange={this.handleChange}/>
+
             <br/>
-            <Row>
+              <br/>
+                <br/>
 
-              {
-                data.map(x =>
-                  <Col key={x.author} xs="6" sm="4">
-                    <div style={{height:"160px", width:"160px"}}>
-                      <CircularProgressbar percentage={x.score} textForPercentage={
-                        (pct) => `${pct}`
-                    } />
-                  <h6>{x.author}</h6>
-
-                    </div>
-                  </Col>
-                  )
-              }
-
-
-            </Row>
-            <br/>
 
           </Jumbotron>
         )
       }
       else {
-        return(<h1>Test</h1>)
+        return(<h1></h1>)
       }
 
     }

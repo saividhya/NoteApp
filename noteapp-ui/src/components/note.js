@@ -6,7 +6,9 @@ import note from './data/note.json'
 import { Jumbotron,Form,Row,Col,Button,Label } from 'reactstrap';
 import {getNoteById,updateNoteById} from './api.js'
 import {SelectComponent,TextComponent,Autocomplete} from './util.js'
-
+import {HeartComponent,PinComponent,ShareComponent
+  ,TrashComponent,AccessIcon} from './icons.js'
+import Cookies from 'universal-cookie';
 
 class Note extends React.Component {
   constructor(props) {
@@ -16,6 +18,8 @@ class Note extends React.Component {
       title: "",
       access: "",
       tags: [],
+      pins:[],
+      likes:[],
       accessItems:[
         {
           "objectId": 1,
@@ -53,6 +57,8 @@ class Note extends React.Component {
               this.setState({access:data.access})
               this.setState({title:data.title})
               this.setState({tags:data.tags})
+              this.setState({pins:data.pins})
+              this.setState({likes:data.likes})
               //console.log(data.myNotes);
 
               })
@@ -98,14 +104,23 @@ class Note extends React.Component {
   }
 
   render() {
+    const cookies = new Cookies();
     return (
       <Jumbotron style={{backgroundColor: '#FFFFFF'}}>
         <Form onSubmit={this.handleSubmit}>
           <Row>
-            <Col/>
+            <Col>
+                {
+                  this.state.pins.indexOf(cookies.get("email")) > -1
+                  ?(<PinComponent pins={this.state.pins} id={this.props.match.params.id}
+                    pinned={true}/>):
+                  (<PinComponent pins={this.state.pins} id={this.props.match.params.id}/>)
+
+                }
+                <HeartComponent likes={this.state.likes} id={this.props.match.params.id}/>
+            </Col>
             <Col/>
             <Col>
-
             <Col>
               <p className="text-right"><Button
               value="Cancel" href="/" >Cancel</Button>
