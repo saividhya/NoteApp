@@ -6,10 +6,12 @@ import {getTags,getTreeMap} from './api.js'
 import Cookies from 'universal-cookie';
 import {getAuthors} from './api.js'
 import PropTypes from 'prop-types'
-import TreeMap from "react-d3-treemap";
+
+//import {Treemap} from 'react-vis'
+import 'react-vis/dist/style.css';
 // Include its styles in you build process as well
 import "react-d3-treemap/dist/react.d3.treemap.css";
-import treeMap from './data/treemap.json'
+import TreeMapComponent from './treeMap.js'
 export class SelectComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -97,8 +99,8 @@ class My extends React.Component {
             if(response.ok) {
               response.json().then(
                 data => {
-                  console.log(data)
-                  this.setState({treeMapData:data})
+                  console.log(JSON.stringify(data))
+                this.setState({treeMapData:data})
                   // this.setState({recommendNotes:data.myNotes})
                   //console.log(data.myNotes);
 
@@ -109,46 +111,69 @@ class My extends React.Component {
             })
 
 
+            //this.setState({treeMapData:treeMap})
+
+
+  }
+  componentDidMount() {
+    getTreeMap().then( (response) =>
+    {
+        if(response.ok) {
+          response.json().then(
+            data => {
+              console.log(JSON.stringify(data))
+            this.setState({treeMapData:data})
+              // this.setState({recommendNotes:data.myNotes})
+              //console.log(data.myNotes);
+
+              })
+        }
+      }).catch (function (error) {
+          console.log('Request failed', error);
+        })
   }
 
   render () {
     let data=this.state.data
     const cookies = new Cookies();
+    let treeData=this.state.treeMapData
     if (cookies.get("email")) {
-      return (
-        <Jumbotron  style={{backgroundColor: '#FFFFFF'}}>
-          <TreeMap
-            height={500}
-            width={800}
-            data={this.state.treeMapData}
-            valueUnit={"MB"}
-          />
-        <br/>
-        <SelectComponent id="tag" value={this.state.tag} label="Tag"
-          options={this.state.tagItems} onChange={this.handleChange}/>
+      if(Object.keys(treeData).length !== 0) {
+        return (
+          <Jumbotron  style={{backgroundColor: '#FFFFFF'}}>
+            {console.log(treeData)}
+            <TreeMapComponent data={this.state.treeMapData}/>
           <br/>
-          <Row>
+          <SelectComponent id="tag" value={this.state.tag} label="Tag"
+            options={this.state.tagItems} onChange={this.handleChange}/>
+            <br/>
+            <Row>
 
-            {
-              data.map(x =>
-                <Col key={x.author} xs="6" sm="4">
-                  <div style={{height:"160px", width:"160px"}}>
-                    <CircularProgressbar percentage={x.score} textForPercentage={
-                      (pct) => `${pct}`
-                  } />
-                <h6>{x.author}</h6>
+              {
+                data.map(x =>
+                  <Col key={x.author} xs="6" sm="4">
+                    <div style={{height:"160px", width:"160px"}}>
+                      <CircularProgressbar percentage={x.score} textForPercentage={
+                        (pct) => `${pct}`
+                    } />
+                  <h6>{x.author}</h6>
 
-                  </div>
-                </Col>
-                )
-            }
+                    </div>
+                  </Col>
+                  )
+              }
 
 
-          </Row>
-          <br/>
+            </Row>
+            <br/>
 
-        </Jumbotron>
-      )
+          </Jumbotron>
+        )
+      }
+      else {
+        return(<h1>Test</h1>)
+      }
+
     }
       else {
         window.location="/login"
