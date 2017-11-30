@@ -109,8 +109,8 @@ class My extends React.Component {
           }).catch (function (error) {
               console.log('Request failed', error);
             })
-            console.log(treeMap)
-       this.setState({treeMapData:treeMap})
+            //console.log(treeMap)
+      // this.setState({treeMapData:treeMap})
 
 
             //this.setState({treeMapData:treeMap})
