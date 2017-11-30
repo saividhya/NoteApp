@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
    "children":[
       {
          "children":[
@@ -18,3 +19,39 @@
    ],
    "name":"Popular Notes"
 }
+=======
+    "children": [
+        {
+            "children": [
+                {
+                    "name": "HTML",
+                    "value": 3
+                }
+            ],
+            "name": "Cheatsheets"
+        },
+        {
+            "children": [
+                {
+                    "name": "HTML",
+                    "value": 3
+                },
+                {
+                    "name": "SQL",
+                    "value": 1
+                },
+                {
+                    "name": "SQL",
+                    "value": 1
+                },
+                {
+                    "name": "JS iterations",
+                    "value": 1
+                }
+            ],
+            "name": "Notes"
+        }
+    ],
+    "name": "Popular Notes"
+}
+>>>>>>> f665ec8ac98e908d4706e7844f4358ab3b6b6b1b

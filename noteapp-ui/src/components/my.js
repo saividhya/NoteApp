@@ -109,6 +109,8 @@ class My extends React.Component {
           }).catch (function (error) {
               console.log('Request failed', error);
             })
+            console.log(treeMap)
+       this.setState({treeMapData:treeMap})
 
 
             //this.setState({treeMapData:treeMap})
@@ -135,6 +137,8 @@ class My extends React.Component {
 
   render () {
     let data=this.state.data
+    let tree=this.state.treeMapData
+    console.log(tree)
     const cookies = new Cookies();
     let treeData=this.state.treeMapData
     if (cookies.get("email")) {
