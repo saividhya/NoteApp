@@ -152,6 +152,7 @@ export class RecommendNotes extends React.Component {
                       <PinComponent pins={row.pins} id={row._id} pinned={this.props.pinned}/>
                       <HeartComponent likes={row.likes} id={row._id}/>
                         <Share/>
+                        <AccessIcon icon={row.access}/>
                       </span>
                     </CardTitle>
                     </CardBody>
@@ -170,6 +171,7 @@ export class RecommendNotes extends React.Component {
                       <PinComponent pins={row.pins} id={row._id} pinned={this.props.pinned}/>
                       <HeartComponent likes={row.likes} id={row._id}/>
                         <Share/>
+                        <AccessIcon icon={row.access}/>
                       </span>
                     </CardTitle>
                     </CardBody>

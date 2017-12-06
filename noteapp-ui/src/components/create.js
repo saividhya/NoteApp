@@ -90,10 +90,10 @@ class Create extends React.Component {
 
             <Col>
               <p className="text-right"><Button
-              value="Cancel" href="/" style={{backgroundColor: '#8A2BE2'}}>Cancel</Button>
+              value="Cancel" href="/">Cancel</Button>
             &nbsp;&nbsp;
               <Button
-              type="submit" value="Submit" style={{backgroundColor: '#8A2BE2'}}
+              type="submit" value="Submit" 
               onClick={this.handleSubmit}>Save</Button></p>
             </Col>
             </Col>
