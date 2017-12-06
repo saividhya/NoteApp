@@ -6,6 +6,8 @@ from event import generateEvent
 import csv
 import bson
 import re
+from mongoengine.queryset.visitor import Q
+
 
 def postNote():
     if 'user' not in session:
@@ -138,7 +140,7 @@ def getAuthors(tag):
         abort(403)
     userEmail = session['user']['email']
     p = [{'$match':{"tags":{"$in": [ tag ] } } }, {"$group":{"_id":{"author":"$author", "pins":"$pins"}, "viewscount":{"$sum":"$views"} } }, {"$project":{"viewscount":"$viewscount", "noofpins":{"$size":{"$ifNull":["$_id.pins", [] ] } } } }, {"$group":{"_id":{"author":"$_id.author"}, "views":{"$sum":"$viewscount"}, "pins":{"$sum":"$noofpins"} } }, {"$project":{"views" : "$views", "pins" : "$pins", "total" : { "$add" : [ "$views", "$pins" ] } } }, { "$sort"  : { "total" : -1 } } ]
-    result = list(Note.objects.aggregate(*p))[1:3]
+    result = list(Note.objects.aggregate(*p))[1:4]
     authors = []
     totalcount = 0 
     for i in result:
@@ -153,23 +155,37 @@ def getTreeMap():
     if 'user' not in session:
         abort(403)
     userEmail = session['user']['email']
+    tag_freqs = Note.objects(tags__nin= ["Cheatsheet"] ).item_frequencies('tags', normalize=True)
     
+    tags = tag_freqs.keys()
     data = {"name" : "Popular Notes","children" : [ ] }
-
-    p=[{'$match': {"tags": {"$in": ["HTML"] }, "tags": {"$in": ["Cheatsheet"] }, "author": {"$nin": [userEmail] }, "contributors": {"$nin": [userEmail] }, "pins": {"$nin": [userEmail] }, "pins": {"$exists": "true", "$not": {"$size": 0 } } } }, {"$group": {"_id": {"id": "$_id", "title" : "$title", "content" : "$content", "likes" : "$likes"}, "count": {"$sum": "$views"} } }, {"$sort"  : { "count" : -1 } }]
-    Cheatsheets = list(Note.objects.aggregate(*p))
     
-    p=[{'$match': {"tags": {"$in": ["HTML"] }, "tags": {"$nin": ["Cheatsheet"] }, "author": {"$nin": [userEmail] }, "contributors": {"$nin": [userEmail] }, "pins": {"$nin": [userEmail] }, "pins": {"$exists": "true", "$not": {"$size": 0 } } } }, {"$group": {"_id": {"id": "$_id", "title" : "$title", "content" : "$content", "likes" : "$likes"}, "count": {"$sum": "$views"} } }, {"$sort"  : { "count" : -1 } }]
-    notes = list(Note.objects.aggregate(*p))
+    c = 0
+    for t in tags:
 
-    data["children"]= [ {"name": "Cheatsheets", "children" : []}, {"name": "Notes", "children" : []} ]
-    
+        data["children"].append({"name": t, "children" : []})
+        baseNotes = Note.objects(Q(tags__in=[t]) & Q(tags__in=["Cheatsheet"]) & Q(author__nin= [userEmail] ) & Q(contributors__nin= [userEmail] ) & Q(pins__nin= [userEmail] ) & Q(pins__size__ne = 0 ) )
+        nbaseNotes = Note.objects(Q(tags__in=[t]) & Q(tags__nin=["Cheatsheet"]) & Q(author__nin= [userEmail] ) & Q(contributors__nin= [userEmail] ) & Q(pins__nin= [userEmail] ) & Q(pins__size__ne = 0 ) )
 
-    for i in Cheatsheets:
-        data["children"][0]["children"].append({"name" : i["_id"]["title"] , "value" : i["count"] })
+        
+        p = [{'$match': { "pins": {"$exists": "true", "$not": {"$size": 0 } }}},{"$group": {"_id": {"id": "$_id", "title": "$title", "content": "$content", "likes": "$likes", "tags" : "$tags", "pins" : "$pins"}, "count": {"$sum": 1} } }, {"$sort": {"count": -1 } }]
+        Cheatsheets = list(baseNotes.aggregate(*p))
+        
+        
+        p=[{'$match': { "pins": {"$exists": "true", "$not": {"$size": 0 } }}},{"$group": {"_id": {"id": "$_id", "title" : "$title", "content" : "$content", "likes" : "$likes", "tags" : "$tags", "pins" : "$pins"}, "count": {"$sum": 1} } }, {"$sort"  : { "count" : -1 } }]
+        notes = list(nbaseNotes.aggregate(*p))
 
-    for i in notes:
-        data["children"][1]["children"].append({"name" : i["_id"]["title"] , "value" : i["count"] })
-    
+        
+        data["children"][c]["children"].append({"name": "Cheatsheets", "children" : []})
+        data["children"][c]["children"].append({"name": "Notes", "children" : []})
+        
+        for i in Cheatsheets:
+            data["children"][c]["children"][0]["children"].append({"name" : i["_id"]["title"] , "value" : i["count"], "link" : "http://localhost:3000/notes/" + str(i["_id"]["id"]) })
+
+        for i in notes:
+            data["children"][c]["children"][1]["children"].append({"name" : i["_id"]["title"] , "value" : i["count"], "link" : "http://localhost:3000/notes/" + str(i["_id"]["id"]) })
+
+        c=c+1
+
     return jsonify(data)
     
